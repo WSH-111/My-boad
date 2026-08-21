@@ -10,11 +10,10 @@ portfolio_data.json을 최신 값으로 갱신하는 스크립트.
 
 동작:
   1. 접근토큰 발급 (POST /oauth2/token)
-  2. 주식잔고조회 (POST /krstock/inquiry/v1/balance)
+  2. 주식잔고조회 연속조회 반복 수행 (POST /krstock/inquiry/v1/balance)
   3. 기존 portfolio_data.json을 읽어서 오늘 날짜 항목을 추가/갱신
      - NH 데이터는 API로 받은 실시간 값 사용
-     - 미래에셋/KB(삼성전자) 데이터는 API로 받을 수 없으므로
-       가장 최근에 저장된 값을 그대로 이어씀 (완전 자동 아님, 참고용)
+     - 미래에셋/KB(삼성전자) 데이터는 가장 최근 저장된 값을 이어씀
   4. portfolio_data.json 덮어쓰기
 """
 
@@ -43,14 +42,16 @@ def http_post(url, data=None, headers=None, json_body=None):
     req = urllib.request.Request(url, data=body, headers=headers, method="POST")
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read().decode("utf-8"))
+            resp_body = resp.read().decode("utf-8")
+            resp_headers = dict(resp.info())
+            return json.loads(resp_body), resp_headers
     except urllib.error.HTTPError as e:
         print(f"HTTP {e.code} 오류: {e.read().decode('utf-8', 'ignore')}", file=sys.stderr)
         raise
 
 
 def get_access_token(appkey, appsecretkey):
-    result = http_post(
+    result, _ = http_post(
         f"{DOMAIN}/oauth2/token",
         data={
             "appkey": appkey,
@@ -65,11 +66,24 @@ def get_access_token(appkey, appsecretkey):
     return token
 
 
-def get_balance(token, account_no):
-    result = http_post(
-        f"{DOMAIN}/krstock/inquiry/v1/balance",
-        headers={"Authorization": f"Bearer {token}"},
-        json_body={
+def get_all_balances(token, account_no):
+    """
+    cts, cts_flag를 이용해 모든 페이지를 조회하고
+    Output_0(최종 합계 정보) 및 Output_1(종목 목록)을 누적하여 반환.
+    """
+    cts_flag = "N"
+    cts = ""
+    
+    all_output1 = []
+    final_output0 = {}
+
+    while True:
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "cts_flag": cts_flag,
+            "cts": cts
+        }
+        json_body = {
             "Input_0": {
                 "act_no": account_no,
                 "bnc_bse_cd": "1",       # 1: 주식관련 총 평가(체결기준)
@@ -77,15 +91,37 @@ def get_balance(token, account_no):
                 "aet_bse": "2",          # 2: 총자산
                 "qut_dit_cd": "UNT",     # UNT: 통합시세
             }
-        },
-    )
-    if result.get("rsp_cd") not in (None, "00166"):
-        print(f"경고: 잔고조회 응답코드 {result.get('rsp_cd')} - {result.get('rsp_msg')}", file=sys.stderr)
-    return result
+        }
+
+        result, resp_headers = http_post(
+            f"{DOMAIN}/krstock/inquiry/v1/balance",
+            headers=headers,
+            json_body=json_body
+        )
+
+        rsp_cd = result.get("rsp_cd")
+        if rsp_cd not in (None, "00166", "00218"):
+            print(f"경고: 잔고조회 응답코드 {rsp_cd} - {result.get('rsp_msg')}", file=sys.stderr)
+
+        output1 = result.get("Output_1", [])
+        if output1:
+            all_output1.extend(output1)
+
+        if result.get("Output_0"):
+            final_output0 = result.get("Output_0")
+
+        next_cts_flag = resp_headers.get("cts_flag") or result.get("cts_flag", "N")
+        next_cts = resp_headers.get("cts") or result.get("cts", "")
+
+        if next_cts_flag == "Y" and next_cts:
+            cts_flag = "Y"
+            cts = next_cts
+        else:
+            break
+
+    return final_output0, all_output1
 
 
-# 원본 엑셀에서 쓰던 종목명과 API가 돌려주는 종목명을 맞추기 위한 매핑.
-# API 종목명이 다르게 나오면 여기 추가하세요.
 NAME_CANON = {
     "KODEX K방산TOP10": "KODEX 방산TOP10",
     "TIGER 글로벌AI플랫폼": "TIGER 글로벌AI플랫폼액티브",
@@ -106,10 +142,7 @@ def main():
         sys.exit(1)
 
     token = get_access_token(appkey, appsecretkey)
-    balance = get_balance(token, account_no)
-
-    output0 = balance.get("Output_0", {})
-    output1 = balance.get("Output_1", [])
+    output0, output1 = get_all_balances(token, account_no)
 
     today = datetime.now(KST).date().isoformat()
 
@@ -134,8 +167,6 @@ def main():
         series = store["stocks"].setdefault(name, [])
         entry = {"date": today, "invested": invested, "eval": eval_amt, "pnl": pnl, "pct": pct}
 
-        # 삼성전자는 NH/미래에셋/KB 다계좌 구조 유지: NH 값만 실시간 갱신,
-        # 미래에셋/KB는 마지막으로 저장된 값을 그대로 이어씀.
         if name == "삼성전자":
             prev = series[-1] if series else {}
             mirae = prev.get("mirae")
@@ -168,9 +199,6 @@ def main():
         store["dates"].append(today)
         store["dates"].sort()
 
-    # 이번 API 조회에 없던(과거에만 있던) 종목은 오늘자 값을 채우지 않고 건너뜀
-    # (매도해서 더 이상 보유하지 않는 종목일 수 있음)
-
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
     nh_eval = round(output0.get("tot_eal_amt") or 0)
     nh_invested = round(output0.get("tot_byn_amt") or 0)
@@ -180,7 +208,6 @@ def main():
         round(nh_pnl / nh_invested * 100, 2) if nh_invested else None
     )
 
-    # 삼성전자의 미래에셋/KB 몫을 더해 "진짜 합계"도 함께 갱신 (근사치)
     ss_series = store["stocks"].get("삼성전자", [])
     ss_latest = ss_series[-1] if ss_series else {}
     add_inv = ((ss_latest.get("mirae") or {}).get("invested") or 0) + \
@@ -206,7 +233,7 @@ def main():
         overall.append(overall_entry)
 
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(store, f, ensure_ascii=False)
+        json.dump(store, f, ensure_ascii=False, indent=2)
 
     print(f"갱신 완료: {today} / 평가금액 {nh_eval:,}원 / 수익률 {nh_pct}%")
 
