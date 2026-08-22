@@ -208,6 +208,7 @@ def main():
         round(nh_pnl / nh_invested * 100, 2) if nh_invested else None
     )
 
+    # 삼성전자의 미래에셋/KB 몫을 더해 "진짜 합계"도 함께 갱신 (근사치)
     ss_series = store["stocks"].get("삼성전자", [])
     ss_latest = ss_series[-1] if ss_series else {}
     add_inv = ((ss_latest.get("mirae") or {}).get("invested") or 0) + \
@@ -231,6 +232,8 @@ def main():
         overall[-1] = overall_entry
     else:
         overall.append(overall_entry)
+
+    store["lastUpdated"] = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
 
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(store, f, ensure_ascii=False, indent=2)
