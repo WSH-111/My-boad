@@ -89,7 +89,7 @@ def get_all_balances(token, account_no):
                 "bnc_bse_cd": "1",       # 1: 주식관련 총 평가(체결기준)
                 "ltg_aot_dit_cd": "9",   # 9: 전체
                 "aet_bse": "2",          # 2: 총자산
-                "qut_dit_cd": "UNT",     # UNT: 통합시세
+                "qut_dit_cd": "KRX",     # KRX: KRX 정규장 시세만 (UNT=통합, NXT=NXT시세)
             }
         }
 
