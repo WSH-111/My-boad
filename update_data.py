@@ -35,7 +35,7 @@ DATA_FILE = os.path.join(os.path.dirname(__file__), "portfolio_data.json")
 KST = timezone(timedelta(hours=9))
 
 
-def http_post(url, data=None, headers=None, json_body=None):
+def http_post(url, data=None, headers=None, json_body=None, timeout=15):
     headers = headers or {}
     if json_body is not None:
         body = json.dumps(json_body).encode("utf-8")
@@ -45,7 +45,7 @@ def http_post(url, data=None, headers=None, json_body=None):
         headers.setdefault("Content-Type", "application/x-www-form-urlencoded")
     req = urllib.request.Request(url, data=body, headers=headers, method="POST")
     try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             resp_body = resp.read().decode("utf-8")
             resp_headers = dict(resp.info())
             return json.loads(resp_body), resp_headers
@@ -126,13 +126,8 @@ def get_all_balances(token, account_no):
     return final_output0, all_output1
 
 
-def get_trading_pnl(token, account_no, start_date, end_date):
-    """
-    국내_주식_조회_종목별실현손익 API — 지정한 기간(iqr_sta_dt~iqr_end_dt) 동안의
-    매수/매도 체결을 기준으로 종목별 실제 실현손익(pls_amt)을 계산해 돌려준다.
-    현재 보유 중인 종목도 그 기간에 매매가 있었으면 같이 나오지만, 우리는
-    "지금 잔고에 없는 종목"에 대해서만 이 값을 실제 실현손익으로 사용한다.
-    """
+def get_trading_pnl_one_range(token, account_no, start_date, end_date):
+    """한 구간(최대 ~3개월 권장)에 대해 종목별실현손익을 조회. cts로 페이지네이션."""
     cts_flag = "N"
     cts = ""
     all_output1 = []
@@ -154,11 +149,12 @@ def get_trading_pnl(token, account_no, start_date, end_date):
             f"{DOMAIN}/krstock/inquiry/v1/tradingPnl",
             headers=headers,
             json_body=json_body,
+            timeout=25,  # 조회기간이 길면 응답이 느릴 수 있어 여유있게
         )
 
         rsp_cd = result.get("rsp_cd")
         if rsp_cd not in (None, "00166", "00218"):
-            print(f"경고: 종목별실현손익조회 응답코드 {rsp_cd} - {result.get('rsp_msg')}", file=sys.stderr)
+            print(f"경고: 종목별실현손익조회({start_date}~{end_date}) 응답코드 {rsp_cd} - {result.get('rsp_msg')}", file=sys.stderr)
 
         output1 = result.get("Output_1", [])
         if output1:
@@ -171,6 +167,34 @@ def get_trading_pnl(token, account_no, start_date, end_date):
             cts = next_cts
         else:
             break
+
+    return all_output1
+
+
+def get_trading_pnl(token, account_no, start_date, end_date, chunk_days=90):
+    """
+    국내_주식_조회_종목별실현손익 API — 지정한 기간(iqr_sta_dt~iqr_end_dt) 동안의
+    매수/매도 체결을 기준으로 종목별 실제 실현손익(pls_amt)을 계산해 돌려준다.
+
+    조회 기간이 길면(수개월~1년) NH 서버 쪽에서 타임아웃/차단이 날 수 있어,
+    chunk_days(기본 90일) 단위로 여러 번 나눠 호출한 뒤 결과를 합친다.
+    한 구간이 실패해도(타임아웃 등) 전체 실행이 죽지 않도록 그 구간만 건너뛴다.
+    """
+    start = datetime.strptime(start_date, "%Y%m%d").date()
+    end = datetime.strptime(end_date, "%Y%m%d").date()
+
+    all_output1 = []
+    cur = start
+    while cur <= end:
+        chunk_end = min(cur + timedelta(days=chunk_days - 1), end)
+        s_str, e_str = cur.strftime("%Y%m%d"), chunk_end.strftime("%Y%m%d")
+        try:
+            chunk_result = get_trading_pnl_one_range(token, account_no, s_str, e_str)
+            print(f"[진단] tradingPnl {s_str}~{e_str}: {len(chunk_result)}건")
+            all_output1.extend(chunk_result)
+        except Exception as e:
+            print(f"경고: tradingPnl {s_str}~{e_str} 구간 조회 실패({e}) — 이 구간은 건너뜁니다.", file=sys.stderr)
+        cur = chunk_end + timedelta(days=1)
 
     return all_output1
 
@@ -265,12 +289,15 @@ def main():
     # 실현손익 조회 기간: 우리가 갖고 있는 가장 이른 날짜부터 오늘까지
     trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
     trading_pnl_end = today.replace("-", "")
-    trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
+    try:
+        trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
+    except Exception as e:
+        print(f"경고: 종목별실현손익조회 전체 실패({e}) — 이번 실행에서는 realizedStocks를 건너뜁니다.", file=sys.stderr)
+        trading_output1 = []
     print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
     for it in trading_output1:
         print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
 
-  
     # ---- 종목별 갱신 ----
     for item in output1:
         name = canon(item.get("iem_nm", "").strip())
