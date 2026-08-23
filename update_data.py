@@ -123,6 +123,41 @@ def get_all_balances(token, account_no):
     return final_output0, all_output1
 
 
+# 2026년 KRX 휴장일 (주말 제외, 평일 중 시장이 쉬는 날).
+# 출처: 한국거래소 공지 기준. 연도가 바뀌면 이 목록을 갱신해야 합니다.
+KRX_HOLIDAYS_2026 = {
+    "2026-01-01",  # 신정
+    "2026-02-16", "2026-02-17", "2026-02-18",  # 설 연휴
+    "2026-03-02",  # 삼일절 대체공휴일
+    "2026-05-01",  # 근로자의 날
+    "2026-05-05",  # 어린이날
+    "2026-05-25",  # 부처님오신날 대체공휴일
+    "2026-06-03",  # 전국동시지방선거
+    "2026-07-17",  # 제헌절
+    "2026-08-17",  # 광복절 대체공휴일
+    "2026-09-24", "2026-09-25", "2026-09-28",  # 추석 연휴 + 대체공휴일
+    "2026-10-05",  # 개천절 대체공휴일
+    "2026-10-09",  # 한글날
+    "2026-12-25",  # 성탄절
+    "2026-12-31",  # 연말 휴장
+}
+
+
+def num(v, default=0):
+    """API가 숫자를 문자열로 내려줄 수도 있어 방어적으로 변환."""
+    if v is None:
+        return default
+    if isinstance(v, str):
+        v = v.strip().replace(",", "")
+        if v == "":
+            return default
+        try:
+            return float(v)
+        except ValueError:
+            return default
+    return v
+
+
 NAME_CANON = {
     "KODEX K방산TOP10": "KODEX 방산TOP10",
     "TIGER 글로벌AI플랫폼": "TIGER 글로벌AI플랫폼액티브",
@@ -158,10 +193,19 @@ def main():
         print("환경변수 NH_APPKEY / NH_APPSECRETKEY / NH_ACCOUNT_NO 가 필요합니다.", file=sys.stderr)
         sys.exit(1)
 
+    now_kst = datetime.now(KST)
+    today_iso = now_kst.date().isoformat()
+    if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
+        print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
+        return
+    if today_iso in KRX_HOLIDAYS_2026:
+        print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
+        return
+
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
 
-    today = datetime.now(KST).date().isoformat()
+    today = today_iso
 
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         store = json.load(f)
@@ -171,13 +215,13 @@ def main():
         name = canon(item.get("iem_nm", "").strip())
         if not name:
             continue
-        qty = item.get("itg_bnc_qty") or 0
-        phs_pr = item.get("phs_pr") or 0
+        qty = num(item.get("itg_bnc_qty"))
+        phs_pr = num(item.get("phs_pr"))
         invested = round(qty * phs_pr)
-        eval_amt = round(item.get("eal_amt") or 0)
-        pnl = round(item.get("eal_pls_amt") or 0)
+        eval_amt = round(num(item.get("eal_amt")))
+        pnl = round(num(item.get("eal_pls_amt")))
         pct = item.get("pft_rt")
-        pct = round(pct, 2) if pct is not None else (
+        pct = round(num(pct), 2) if pct not in (None, "") else (
             round(pnl / invested * 100, 2) if invested else None
         )
 
@@ -185,7 +229,7 @@ def main():
         entry = {"date": today, "invested": invested, "eval": eval_amt, "pnl": pnl, "pct": pct}
 
         if name == "삼성전자":
-            now_pr = item.get("now_pr") or 0
+            now_pr = num(item.get("now_pr"))
             mirae_eval = round(MIRAE_SHARES * now_pr)
             kb_eval = round(KB_SHARES * now_pr)
             mirae_pnl = mirae_eval - MIRAE_INV
@@ -221,11 +265,11 @@ def main():
         store["dates"].sort()
 
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
-    nh_eval = round(output0.get("tot_eal_amt") or 0)
-    nh_invested = round(output0.get("tot_byn_amt") or 0)
-    nh_pnl = round(output0.get("tot_eal_pls") or 0)
+    nh_eval = round(num(output0.get("tot_eal_amt")))
+    nh_invested = round(num(output0.get("tot_byn_amt")))
+    nh_pnl = round(num(output0.get("tot_eal_pls")))
     nh_pct = output0.get("pft_rt")
-    nh_pct = round(nh_pct, 2) if nh_pct is not None else (
+    nh_pct = round(num(nh_pct), 2) if nh_pct not in (None, "") else (
         round(nh_pnl / nh_invested * 100, 2) if nh_invested else None
     )
 
