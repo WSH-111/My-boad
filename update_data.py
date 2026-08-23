@@ -269,7 +269,10 @@ def main():
     #print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
     #for it in trading_output1:
     #    print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
-
+    
+    # 에러 방지를 위해 빈 리스트 선언
+    trading_output1 = []
+  
     # ---- 종목별 갱신 ----
     for item in output1:
         name = canon(item.get("iem_nm", "").strip())
