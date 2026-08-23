@@ -11,11 +11,14 @@ portfolio_data.json을 최신 값으로 갱신하는 스크립트.
 동작:
   1. 접근토큰 발급 (POST /oauth2/token)
   2. 주식잔고조회 연속조회 반복 수행 (POST /krstock/inquiry/v1/balance)
-  3. 기존 portfolio_data.json을 읽어서 오늘 날짜 항목을 추가/갱신
+  3. 종목별실현손익현황조회 (POST /krstock/inquiry/v1/tradingPnl) — 보유 시작일부터
+     오늘까지 기간을 지정해 실제 매도 체결 기반 실현손익을 조회. 현재 잔고에 없는
+     종목만 골라 "수익실현 종목" 데이터로 사용.
+  4. 기존 portfolio_data.json을 읽어서 오늘 날짜 항목을 추가/갱신
      - NH 데이터는 API로 받은 실시간 값 사용
      - 미래에셋/KB(삼성전자)는 API로 조회가 안 되므로, NH가 알려준 삼성전자
        "현재가"에 고정 보유수량(298주/59주)을 곱해 매번 시가로 재계산
-  4. portfolio_data.json 덮어쓰기
+  5. portfolio_data.json 덮어쓰기
 """
 
 import json
@@ -123,10 +126,12 @@ def get_all_balances(token, account_no):
     return final_output0, all_output1
 
 
-def get_realized_pnl(token, account_no):
+def get_trading_pnl(token, account_no, start_date, end_date):
     """
-    국내_주식_조회_실현손익 API — 계좌의 실현손익(매도 완료분 포함 전체)을 조회.
-    iqr_dit_cd1="0"(전체)로 조회하면 현재 미보유(전량 매도) 종목도 포함되어 내려온다.
+    국내_주식_조회_종목별실현손익 API — 지정한 기간(iqr_sta_dt~iqr_end_dt) 동안의
+    매수/매도 체결을 기준으로 종목별 실제 실현손익(pls_amt)을 계산해 돌려준다.
+    현재 보유 중인 종목도 그 기간에 매매가 있었으면 같이 나오지만, 우리는
+    "지금 잔고에 없는 종목"에 대해서만 이 값을 실제 실현손익으로 사용한다.
     """
     cts_flag = "N"
     cts = ""
@@ -141,20 +146,19 @@ def get_realized_pnl(token, account_no):
         json_body = {
             "Input_0": {
                 "act_no": account_no,
-                "iqr_dit_cd1": "0",   # 0: 전체 (잔고종목 + 매도완료종목 모두 포함)
-                "fee_dit_cd": "1",    # 1: 온라인
-                "qut_dit_cd": "KRX",  # KRX 정규장 시세만
+                "iqr_sta_dt": start_date,  # YYYYMMDD
+                "iqr_end_dt": end_date,    # YYYYMMDD
             }
         }
         result, resp_headers = http_post(
-            f"{DOMAIN}/krstock/inquiry/v1/realizedPnl",
+            f"{DOMAIN}/krstock/inquiry/v1/tradingPnl",
             headers=headers,
             json_body=json_body,
         )
 
         rsp_cd = result.get("rsp_cd")
         if rsp_cd not in (None, "00166", "00218"):
-            print(f"경고: 실현손익조회 응답코드 {rsp_cd} - {result.get('rsp_msg')}", file=sys.stderr)
+            print(f"경고: 종목별실현손익조회 응답코드 {rsp_cd} - {result.get('rsp_msg')}", file=sys.stderr)
 
         output1 = result.get("Output_1", [])
         if output1:
@@ -252,12 +256,16 @@ def main():
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
-    realized_output1 = get_realized_pnl(token, account_no)
 
     today = today_iso
 
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         store = json.load(f)
+
+    # 실현손익 조회 기간: 우리가 갖고 있는 가장 이른 날짜부터 오늘까지
+    trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
+    trading_pnl_end = today.replace("-", "")
+    trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
 
     # ---- 종목별 갱신 ----
     for item in output1:
@@ -314,30 +322,34 @@ def main():
         store["dates"].sort()
 
     # ---- 실현손익(매도 완료 종목) 갱신 ----
+    held_names = {canon((it.get("iem_nm") or "").strip()) for it in output1 if it.get("iem_nm")}
     realized_stocks = {}
-    for item in realized_output1:
+    for item in trading_output1:
         raw_name = (item.get("iem_nm") or "").strip()
         if not raw_name or raw_name.startswith("<"):
             continue
-        qty = num(item.get("itg_bnc_qty"))
-        if qty != 0:
-            continue  # 아직 보유 중인 종목은 제외 (02번 섹션에서 이미 다룸)
         name = canon(raw_name)
-        rzt_pnl = round(num(item.get("rzt_pls_amt")))
-        principal = round(num(item.get("ost_phs_amt_pna")))
-        pct = round(rzt_pnl / principal * 100, 2) if principal else None
+        if name in held_names:
+            continue  # 현재도 보유 중인 종목은 02번 섹션에서 이미 다룸
+        pnl = round(num(item.get("pls_amt")))
+        principal = round(num(item.get("sll_abk_amt")))
+        pct_raw = item.get("pft_rt")
+        pct = round(num(pct_raw), 2) if pct_raw not in (None, "") else (
+            round(pnl / principal * 100, 2) if principal else None
+        )
         prev = realized_stocks.get(name)
         if prev:
             # 같은 종목이 여러 건(분할매도 등)으로 나뉘어 나올 수 있어 합산
-            prev["pnl"] += rzt_pnl
+            prev["pnl"] += pnl
             prev["principal"] += principal
             prev["pct"] = round(prev["pnl"] / prev["principal"] * 100, 2) if prev["principal"] else None
         else:
-            realized_stocks[name] = {"pnl": rzt_pnl, "principal": principal, "pct": pct}
+            realized_stocks[name] = {"pnl": pnl, "principal": principal, "pct": pct}
 
     if realized_stocks:
         store["realizedStocks"] = realized_stocks
         store["realizedAsOf"] = today
+        store["realizedFrom"] = store["dates"][0] if store.get("dates") else today
 
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
     nh_eval = round(num(output0.get("tot_eal_amt")))
