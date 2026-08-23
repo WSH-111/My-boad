@@ -247,12 +247,12 @@ def main():
 
     now_kst = datetime.now(KST)
     today_iso = now_kst.date().isoformat()
-    #if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
-    #    print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
-    #    return
-    #if today_iso in KRX_HOLIDAYS_2026:
-    #    print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
-    #    return
+    if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
+        print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
+        return
+    if today_iso in KRX_HOLIDAYS_2026:
+        print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
+        return
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
@@ -263,15 +263,13 @@ def main():
         store = json.load(f)
 
     # 실현손익 조회 기간: 우리가 갖고 있는 가장 이른 날짜부터 오늘까지
-    #trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
-    #trading_pnl_end = today.replace("-", "")
-    #trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
-    #print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
-    #for it in trading_output1:
-    #    print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
-    
-    # 에러 방지를 위해 빈 리스트 선언
-    trading_output1 = []
+    trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
+    trading_pnl_end = today.replace("-", "")
+    trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
+    print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
+    for it in trading_output1:
+        print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
+
   
     # ---- 종목별 갱신 ----
     for item in output1:
