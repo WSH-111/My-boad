@@ -247,12 +247,12 @@ def main():
 
     now_kst = datetime.now(KST)
     today_iso = now_kst.date().isoformat()
-    if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
-        print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
-        return
-    if today_iso in KRX_HOLIDAYS_2026:
-        print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
-        return
+    #if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
+    #    print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
+    #    return
+    #if today_iso in KRX_HOLIDAYS_2026:
+    #    print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
+    #    return
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
