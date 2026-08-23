@@ -266,6 +266,9 @@ def main():
     trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
     trading_pnl_end = today.replace("-", "")
     trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
+    print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
+    for it in trading_output1:
+        print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
 
     # ---- 종목별 갱신 ----
     for item in output1:
@@ -323,6 +326,7 @@ def main():
 
     # ---- 실현손익(매도 완료 종목) 갱신 ----
     held_names = {canon((it.get("iem_nm") or "").strip()) for it in output1 if it.get("iem_nm")}
+    print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
     realized_stocks = {}
     for item in trading_output1:
         raw_name = (item.get("iem_nm") or "").strip()
@@ -330,6 +334,7 @@ def main():
             continue
         name = canon(raw_name)
         if name in held_names:
+            print(f"[진단]   건너뜀(보유중): {name}")
             continue  # 현재도 보유 중인 종목은 02번 섹션에서 이미 다룸
         pnl = round(num(item.get("pls_amt")))
         principal = round(num(item.get("sll_abk_amt")))
@@ -350,6 +355,9 @@ def main():
         store["realizedStocks"] = realized_stocks
         store["realizedAsOf"] = today
         store["realizedFrom"] = store["dates"][0] if store.get("dates") else today
+        print(f"[진단] realizedStocks 저장: {list(realized_stocks.keys())}")
+    else:
+        print("[진단] realizedStocks 없음 — trading_output1이 비었거나 전부 보유중 종목으로 필터링됨")
 
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
     nh_eval = round(num(output0.get("tot_eal_amt")))
