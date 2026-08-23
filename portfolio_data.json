@@ -6,10 +6,10 @@
       "invested": 44763423,
       "pct": 27.49,
       "pnl": 12304321,
-      "trueEval": 95360744,
-      "trueInvested": 64685523,
-      "truePnl": 30675221,
-      "truePct": 47.42
+      "trueEval": 102942244,
+      "trueInvested": 74544423,
+      "truePnl": 28397821,
+      "truePct": 38.1
     },
     {
       "date": "2026-01-06",
@@ -28,10 +28,10 @@
       "invested": 46192123,
       "pct": 41.6,
       "pnl": 19214712,
-      "trueEval": null,
-      "trueInvested": null,
-      "truePnl": null,
-      "truePct": null
+      "trueEval": 118564135,
+      "trueInvested": 75973123,
+      "truePnl": 42591012,
+      "truePct": 56.06
     },
     {
       "date": "2026-01-26",
@@ -39,10 +39,10 @@
       "invested": 52666423,
       "pct": 40.71,
       "pnl": 21441122,
-      "trueEval": 119522745,
-      "trueInvested": 72588523,
-      "truePnl": 46934222,
-      "truePct": 64.66
+      "trueEval": 128407245,
+      "trueInvested": 82447423,
+      "truePnl": 45959822,
+      "truePct": 55.74
     },
     {
       "date": "2026-01-27",
@@ -50,10 +50,10 @@
       "invested": 52666423,
       "pct": 43.88,
       "pnl": 23111917,
-      "trueEval": 123428540,
-      "trueInvested": 72588523,
-      "truePnl": 50840017,
-      "truePct": 70.04
+      "trueEval": 132719840,
+      "trueInvested": 82447423,
+      "truePnl": 50272417,
+      "truePct": 60.98
     },
     {
       "date": "2026-01-28",
@@ -61,10 +61,10 @@
       "invested": 58075123,
       "pct": 43.13,
       "pnl": 25050537,
-      "trueEval": 132087060,
-      "trueInvested": 77997223,
-      "truePnl": 54089837,
-      "truePct": 69.35
+      "trueEval": 141102460,
+      "trueInvested": 87856123,
+      "truePnl": 53246337,
+      "truePct": 60.61
     },
     {
       "date": "2026-01-29",
@@ -72,10 +72,10 @@
       "invested": 67447123,
       "pct": 36.95,
       "pnl": 24919952,
-      "trueEval": 140374875,
-      "trueInvested": 87369223,
-      "truePnl": 53005652,
-      "truePct": 60.67
+      "trueEval": 149736975,
+      "trueInvested": 97228123,
+      "truePnl": 52508852,
+      "truePct": 54.01
     },
     {
       "date": "2026-01-30",
@@ -83,10 +83,10 @@
       "invested": 69071123,
       "pct": 32.74,
       "pnl": 22611492,
-      "trueEval": 139601015,
-      "trueInvested": 88993223,
-      "truePnl": 50607792,
-      "truePct": 56.87
+      "trueEval": 148981115,
+      "trueInvested": 98852123,
+      "truePnl": 50128992,
+      "truePct": 50.71
     },
     {
       "date": "2026-02-02",
@@ -94,10 +94,10 @@
       "invested": 70055873,
       "pct": 26.21,
       "pnl": 18361007,
-      "trueEval": 133474480,
-      "trueInvested": 89977973,
-      "truePnl": 43496507,
-      "truePct": 48.34
+      "trueEval": 142109680,
+      "trueInvested": 99836873,
+      "truePnl": 42272807,
+      "truePct": 42.34
     },
     {
       "date": "2026-02-03",
@@ -105,10 +105,10 @@
       "invested": 70856873,
       "pct": 33.33,
       "pnl": 23618512,
-      "trueEval": 144390385,
-      "trueInvested": 90778973,
-      "truePnl": 53611412,
-      "truePct": 59.06
+      "trueEval": 154272885,
+      "trueInvested": 100637873,
+      "truePnl": 53635012,
+      "truePct": 53.3
     },
     {
       "date": "2026-02-04",
@@ -116,10 +116,10 @@
       "invested": 70856873,
       "pct": 33.73,
       "pnl": 23896854,
-      "trueEval": 144847527,
-      "trueInvested": 90778973,
-      "truePnl": 54068554,
-      "truePct": 59.56
+      "trueEval": 155122427,
+      "trueInvested": 100637873,
+      "truePnl": 54484554,
+      "truePct": 54.14
     },
     {
       "date": "2026-02-05",
@@ -127,10 +127,10 @@
       "invested": 73126073,
       "pct": 28.95,
       "pnl": 21172587,
-      "trueEval": 142306460,
-      "trueInvested": 93048173,
-      "truePnl": 49258287,
-      "truePct": 52.94
+      "trueEval": 151168760,
+      "trueInvested": 102907073,
+      "truePnl": 48261687,
+      "truePct": 46.9
     },
     {
       "date": "2026-02-06",
@@ -138,10 +138,10 @@
       "invested": 73126073,
       "pct": 26.01,
       "pnl": 19021202,
-      "trueEval": 140125275,
-      "trueInvested": 93048173,
-      "truePnl": 47077102,
-      "truePct": 50.59
+      "trueEval": 148767475,
+      "trueInvested": 102907073,
+      "truePnl": 45860402,
+      "truePct": 44.56
     },
     {
       "date": "2026-02-09",
@@ -149,10 +149,10 @@
       "invested": 73126073,
       "pct": 28.27,
       "pnl": 20669302,
-      "trueEval": 142518375,
-      "trueInvested": 93048173,
-      "truePnl": 49470202,
-      "truePct": 53.17
+      "trueEval": 153200175,
+      "trueInvested": 102907073,
+      "truePnl": 50293102,
+      "truePct": 48.87
     },
     {
       "date": "2026-02-10",
@@ -160,10 +160,10 @@
       "invested": 73126073,
       "pct": 30.06,
       "pnl": 21979237,
-      "trueEval": 144722310,
-      "trueInvested": 93048173,
-      "truePnl": 51674137,
-      "truePct": 55.53
+      "trueEval": 154295910,
+      "trueInvested": 102907073,
+      "truePnl": 51388837,
+      "truePct": 49.94
     },
     {
       "date": "2026-02-11",
@@ -171,10 +171,10 @@
       "invested": 73126073,
       "pct": 30.14,
       "pnl": 22037607,
-      "trueEval": 144870080,
-      "trueInvested": 93048173,
-      "truePnl": 51821907,
-      "truePct": 55.69
+      "trueEval": 155068280,
+      "trueInvested": 102907073,
+      "truePnl": 52161207,
+      "truePct": 50.69
     },
     {
       "date": "2026-02-12",
@@ -182,10 +182,10 @@
       "invested": 73126073,
       "pct": 35.14,
       "pnl": 25694267,
-      "trueEval": 152430540,
-      "trueInvested": 93048173,
-      "truePnl": 59382367,
-      "truePct": 63.82
+      "trueEval": 162580540,
+      "trueInvested": 102907073,
+      "truePnl": 59673467,
+      "truePct": 57.99
     },
     {
       "date": "2026-02-13",
@@ -193,10 +193,10 @@
       "invested": 78129758,
       "pct": 31.69,
       "pnl": 24756687,
-      "trueEval": 157241645,
-      "trueInvested": 98051858,
-      "truePnl": 59189787,
-      "truePct": 60.37
+      "trueEval": 167574845,
+      "trueInvested": 107910758,
+      "truePnl": 59664087,
+      "truePct": 55.29
     },
     {
       "date": "2026-02-19",
@@ -204,10 +204,10 @@
       "invested": 78129758,
       "pct": 36.49,
       "pnl": 28507562,
-      "trueEval": 162929520,
-      "trueInvested": 98051858,
-      "truePnl": 64877662,
-      "truePct": 66.17
+      "trueEval": 174467320,
+      "trueInvested": 107910758,
+      "truePnl": 66556562,
+      "truePct": 61.68
     },
     {
       "date": "2026-02-20",
@@ -215,10 +215,10 @@
       "invested": 78129758,
       "pct": 37.14,
       "pnl": 29016522,
-      "trueEval": 163855680,
-      "trueInvested": 98051858,
-      "truePnl": 65803822,
-      "truePct": 67.11
+      "trueEval": 175011980,
+      "trueInvested": 107910758,
+      "truePnl": 67101222,
+      "truePct": 62.18
     },
     {
       "date": "2026-02-23",
@@ -226,10 +226,10 @@
       "invested": 78129758,
       "pct": 37.56,
       "pnl": 29346257,
-      "trueEval": 165347615,
-      "trueInvested": 98051858,
-      "truePnl": 67295757,
-      "truePct": 68.63
+      "trueEval": 176377015,
+      "trueInvested": 107910758,
+      "truePnl": 68466257,
+      "truePct": 63.45
     },
     {
       "date": "2026-02-24",
@@ -237,10 +237,10 @@
       "invested": 78129758,
       "pct": 48.96,
       "pnl": 38253052,
-      "trueEval": 182836810,
-      "trueInvested": 98051858,
-      "truePnl": 84784952,
-      "truePct": 86.47
+      "trueEval": 187782810,
+      "trueInvested": 107910758,
+      "truePnl": 79872052,
+      "truePct": 74.02
     },
     {
       "date": "2026-02-25",
@@ -248,10 +248,10 @@
       "invested": 78129758,
       "pct": 43.12,
       "pnl": 33692837,
-      "trueEval": 173061595,
-      "trueInvested": 98051858,
-      "truePnl": 75009737,
-      "truePct": 76.5
+      "trueEval": 184472095,
+      "trueInvested": 107910758,
+      "truePnl": 76561337,
+      "truePct": 70.95
     },
     {
       "date": "2026-02-27",
@@ -259,10 +259,10 @@
       "invested": 78129758,
       "pct": 48.7,
       "pnl": 38046607,
-      "trueEval": 180991365,
-      "trueInvested": 98051858,
-      "truePnl": 82939507,
-      "truePct": 84.59
+      "trueEval": 193466865,
+      "trueInvested": 107910758,
+      "truePnl": 85556107,
+      "truePct": 79.28
     },
     {
       "date": "2026-03-03",
@@ -270,10 +270,10 @@
       "invested": 83433758,
       "pct": 29.14,
       "pnl": 24312637,
-      "trueEval": 163174395,
-      "trueInvested": 103355858,
-      "truePnl": 59818537,
-      "truePct": 57.88
+      "trueEval": 177397095,
+      "trueInvested": 113214758,
+      "truePnl": 64182337,
+      "truePct": 56.69
     },
     {
       "date": "2026-03-04",
@@ -281,10 +281,10 @@
       "invested": 83433758,
       "pct": 22.38,
       "pnl": 18674967,
-      "trueEval": 156225525,
-      "trueInvested": 103355858,
-      "truePnl": 52869667,
-      "truePct": 51.15
+      "trueEval": 163584125,
+      "trueInvested": 113214758,
+      "truePnl": 50369367,
+      "truePct": 44.49
     },
     {
       "date": "2026-03-05",
@@ -292,10 +292,10 @@
       "invested": 83433758,
       "pct": 30.56,
       "pnl": 25497237,
-      "trueEval": 166593995,
-      "trueInvested": 103355858,
-      "truePnl": 63238137,
-      "truePct": 61.18
+      "trueEval": 177332195,
+      "trueInvested": 113214758,
+      "truePnl": 64117437,
+      "truePct": 56.63
     },
     {
       "date": "2026-03-06",
@@ -303,10 +303,10 @@
       "invested": 83433758,
       "pct": 29.75,
       "pnl": 24824197,
-      "trueEval": 163626355,
-      "trueInvested": 103355858,
-      "truePnl": 60270497,
-      "truePct": 58.31
+      "trueEval": 175445355,
+      "trueInvested": 113214758,
+      "truePnl": 62230597,
+      "truePct": 54.97
     },
     {
       "date": "2026-03-09",
@@ -314,10 +314,10 @@
       "invested": 83433758,
       "pct": 23.17,
       "pnl": 19330902,
-      "trueEval": 153871660,
-      "trueInvested": 103355858,
-      "truePnl": 50515802,
-      "truePct": 48.88
+      "trueEval": 164704160,
+      "trueInvested": 113214758,
+      "truePnl": 51489402,
+      "truePct": 45.48
     },
     {
       "date": "2026-03-10",
@@ -325,10 +325,10 @@
       "invested": 78667118,
       "pct": 62.66,
       "pnl": 49291557,
-      "trueEval": 208283675,
+      "trueEval": 195038975,
       "trueInvested": 108448118,
-      "truePnl": 99835557,
-      "truePct": 92.06
+      "truePnl": 86590857,
+      "truePct": 79.85
     },
     {
       "date": "2026-04-28",
@@ -336,10 +336,10 @@
       "invested": 78667118,
       "pct": 63.78,
       "pnl": 50171557,
-      "trueEval": 207378675,
+      "trueEval": 208092675,
       "trueInvested": 108448118,
-      "truePnl": 98930557,
-      "truePct": 91.22
+      "truePnl": 99644557,
+      "truePct": 91.88
     },
     {
       "date": "2026-04-29",
@@ -347,10 +347,10 @@
       "invested": 78667118,
       "pct": 67.97,
       "pnl": 53471377,
-      "trueEval": 212998995,
+      "trueEval": 212820495,
       "trueInvested": 108448118,
-      "truePnl": 104550877,
-      "truePct": 96.41
+      "truePnl": 104372377,
+      "truePct": 96.24
     },
     {
       "date": "2026-04-30",
@@ -358,10 +358,10 @@
       "invested": 78667118,
       "pct": 64.61,
       "pnl": 50824607,
-      "trueEval": 208924225,
+      "trueEval": 208210225,
       "trueInvested": 108448118,
-      "truePnl": 100476107,
-      "truePct": 92.65
+      "truePnl": 99762107,
+      "truePct": 91.99
     },
     {
       "date": "2026-05-04",
@@ -369,10 +369,10 @@
       "invested": 78667118,
       "pct": 68.53,
       "pnl": 53912807,
-      "trueEval": 214689925,
+      "trueEval": 215582425,
       "trueInvested": 108448118,
-      "truePnl": 106241807,
-      "truePct": 97.97
+      "truePnl": 107134307,
+      "truePct": 98.79
     },
     {
       "date": "2026-05-06",
@@ -380,10 +380,10 @@
       "invested": 86292391,
       "pct": 84.14,
       "pnl": 72607574,
-      "trueEval": 286170465,
+      "trueEval": 253861965,
       "trueInvested": 116073391,
-      "truePnl": 170097074,
-      "truePct": 146.54
+      "truePnl": 137788574,
+      "truePct": 118.71
     },
     {
       "date": "2026-06-23",
@@ -391,10 +391,10 @@
       "invested": 104972391,
       "pct": 52.06,
       "pnl": 54648334,
-      "trueEval": 270469225,
+      "trueEval": 270290725,
       "trueInvested": 134753391,
-      "truePnl": 135715834,
-      "truePct": 100.71
+      "truePnl": 135537334,
+      "truePct": 100.58
     },
     {
       "date": "2026-06-24",
@@ -831,21 +831,21 @@
       "invested": 111034858,
       "pct": 20.2,
       "pnl": 22427912,
-      "trueEval": 221820270,
+      "trueEval": 230209770,
       "trueInvested": 140815858,
-      "truePnl": 81004412,
-      "truePct": 57.53
+      "truePnl": 89393912,
+      "truePct": 63.48
     },
     {
-      "date": "2026-08-23",
+      "date": "2026-08-21",
       "eval": 142580390,
       "invested": 110624473,
       "pnl": 31955917,
       "pct": 28.89,
-      "trueEval": 230937890,
+      "trueEval": 243075890,
       "trueInvested": 140405473,
-      "truePnl": 90532417,
-      "truePct": 64.48
+      "truePnl": 102670417,
+      "truePct": 73.12
     }
   ],
   "dates": [
@@ -925,7 +925,7 @@
     "2026-08-18",
     "2026-08-19",
     "2026-08-20",
-    "2026-08-23"
+    "2026-08-21"
   ],
   "stocks": {
     "DL": [
@@ -7878,9 +7878,9 @@
     "삼성전자": [
       {
         "date": "2026-01-02",
-        "pct": 99.01,
-        "invested": 31896776,
-        "pnl": 31582224,
+        "pct": 70.18,
+        "invested": 41755676,
+        "pnl": 29304824,
         "nh": {
           "invested": 11974676,
           "eval": 25186000,
@@ -7894,17 +7894,18 @@
           "pct": 92.21
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 7581500,
+          "pnl": -2277400,
+          "pct": -23.1
         },
         "total": {
-          "invested": 31896776,
-          "eval": 63479000,
-          "pnl": 31582224,
-          "pct": 99.01
-        }
+          "invested": 41755676,
+          "eval": 71060500,
+          "pnl": 29304824,
+          "pct": 70.18
+        },
+        "eval": 71060500
       },
       {
         "date": "2026-01-06",
@@ -7917,30 +7918,56 @@
           "pnl": 14406924,
           "pct": null
         },
-        "mirae": null,
-        "kb": null,
+        "mirae": {
+          "invested": 19922100,
+          "eval": 41392200,
+          "pnl": 21470100,
+          "pct": 107.77
+        },
+        "kb": {
+          "invested": 9858900,
+          "eval": 8195100,
+          "pnl": -1663800,
+          "pct": -16.88
+        },
         "total": null
       },
       {
         "date": "2026-01-16",
-        "pct": 143.71,
-        "invested": 11974676,
-        "pnl": 17209724,
+        "pct": 97.2,
+        "invested": 41755676,
+        "pnl": 40586024,
         "nh": {
           "invested": 11974676,
           "eval": 29184400,
           "pnl": 17209724,
           "pct": 143.72
         },
-        "mirae": null,
-        "kb": null,
-        "total": null
+        "mirae": {
+          "invested": 19922100,
+          "eval": 44372200,
+          "pnl": 24450100,
+          "pct": 122.73
+        },
+        "kb": {
+          "invested": 9858900,
+          "eval": 8785100,
+          "pnl": -1073800,
+          "pct": -10.89
+        },
+        "total": {
+          "invested": 41755676,
+          "eval": 82341700,
+          "pnl": 40586024,
+          "pct": 97.2
+        },
+        "eval": 82341700
       },
       {
         "date": "2026-01-26",
-        "pct": 136.03,
-        "invested": 31896776,
-        "pnl": 43388824,
+        "pct": 101.58,
+        "invested": 41755676,
+        "pnl": 42414424,
         "nh": {
           "invested": 11974676,
           "eval": 29870400,
@@ -7949,28 +7976,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 45415200,
-          "pnl": 25493100,
-          "pct": 127.96
+          "eval": 45325800,
+          "pnl": 25403700,
+          "pct": 127.52
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 8973900,
+          "pnl": -885000,
+          "pct": -8.98
         },
         "total": {
-          "invested": 31896776,
-          "eval": 75285600,
-          "pnl": 43388824,
-          "pct": 136.03
-        }
+          "invested": 41755676,
+          "eval": 84170100,
+          "pnl": 42414424,
+          "pct": 101.58
+        },
+        "eval": 84170100
       },
       {
         "date": "2026-01-27",
-        "pct": 147.64,
-        "invested": 31896776,
-        "pnl": 47093824,
+        "pct": 111.42,
+        "invested": 41755676,
+        "pnl": 46526224,
         "nh": {
           "invested": 11974676,
           "eval": 31340400,
@@ -7979,28 +8007,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 47650200,
-          "pnl": 27728100,
-          "pct": 139.18
+          "eval": 47531000,
+          "pnl": 27608900,
+          "pct": 138.58
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9410500,
+          "pnl": -448400,
+          "pct": -4.55
         },
         "total": {
-          "invested": 31896776,
-          "eval": 78990600,
-          "pnl": 47093824,
-          "pct": 147.64
-        }
+          "invested": 41755676,
+          "eval": 88281900,
+          "pnl": 46526224,
+          "pct": 111.42
+        },
+        "eval": 88281900
       },
       {
         "date": "2026-01-28",
-        "pct": 154.46,
-        "invested": 31896776,
-        "pnl": 49267424,
+        "pct": 115.97,
+        "invested": 41755676,
+        "pnl": 48423924,
         "nh": {
           "invested": 11974676,
           "eval": 32202800,
@@ -8009,28 +8038,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 48961400,
-          "pnl": 29039300,
-          "pct": 145.76
+          "eval": 48395200,
+          "pnl": 28473100,
+          "pct": 142.92
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9581600,
+          "pnl": -277300,
+          "pct": -2.81
         },
         "total": {
-          "invested": 31896776,
-          "eval": 81164200,
-          "pnl": 49267424,
-          "pct": 154.46
-        }
+          "invested": 41755676,
+          "eval": 90179600,
+          "pnl": 48423924,
+          "pct": 115.97
+        },
+        "eval": 90179600
       },
       {
         "date": "2026-01-29",
-        "pct": 149.5,
-        "invested": 31896776,
-        "pnl": 47686624,
+        "pct": 113.01,
+        "invested": 41755676,
+        "pnl": 47189824,
         "nh": {
           "invested": 11974676,
           "eval": 31575600,
@@ -8039,28 +8069,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 48007800,
-          "pnl": 28085700,
-          "pct": 140.98
+          "eval": 47888600,
+          "pnl": 27966500,
+          "pct": 140.38
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9481300,
+          "pnl": -377600,
+          "pct": -3.83
         },
         "total": {
-          "invested": 31896776,
-          "eval": 79583400,
-          "pnl": 47686624,
-          "pct": 149.5
-        }
+          "invested": 41755676,
+          "eval": 88945500,
+          "pnl": 47189824,
+          "pct": 113.01
+        },
+        "eval": 88945500
       },
       {
         "date": "2026-01-30",
-        "pct": 149.04,
-        "invested": 31896776,
-        "pnl": 47538424,
+        "pct": 112.7,
+        "invested": 41755676,
+        "pnl": 47059624,
         "nh": {
           "invested": 11974676,
           "eval": 31516800,
@@ -8069,28 +8100,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 47918400,
-          "pnl": 27996300,
-          "pct": 140.53
+          "eval": 47829000,
+          "pnl": 27906900,
+          "pct": 140.08
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9469500,
+          "pnl": -389400,
+          "pct": -3.95
         },
         "total": {
-          "invested": 31896776,
-          "eval": 79435200,
-          "pnl": 47538424,
-          "pct": 149.04
-        }
+          "invested": 41755676,
+          "eval": 88815300,
+          "pnl": 47059624,
+          "pct": 112.7
+        },
+        "eval": 88815300
       },
       {
         "date": "2026-02-02",
-        "pct": 134.17,
-        "invested": 31896776,
-        "pnl": 42796024,
+        "pct": 99.56,
+        "invested": 41755676,
+        "pnl": 41572324,
         "nh": {
           "invested": 11974676,
           "eval": 29635200,
@@ -8099,28 +8131,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 45057600,
-          "pnl": 25135500,
-          "pct": 126.17
+          "eval": 44819200,
+          "pnl": 24897100,
+          "pct": 124.97
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 8873600,
+          "pnl": -985300,
+          "pct": -9.99
         },
         "total": {
-          "invested": 31896776,
-          "eval": 74692800,
-          "pnl": 42796024,
-          "pct": 134.17
-        }
+          "invested": 41755676,
+          "eval": 83328000,
+          "pnl": 41572324,
+          "pct": 99.56
+        },
+        "eval": 83328000
       },
       {
         "date": "2026-02-03",
-        "pct": 159.41,
-        "invested": 31896776,
-        "pnl": 50848224,
+        "pct": 121.83,
+        "invested": 41755676,
+        "pnl": 50871824,
         "nh": {
           "invested": 11974676,
           "eval": 32830000,
@@ -8134,23 +8167,24 @@
           "pct": 150.55
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9882500,
+          "pnl": 23600,
+          "pct": 0.24
         },
         "total": {
-          "invested": 31896776,
-          "eval": 82745000,
-          "pnl": 50848224,
-          "pct": 159.41
-        }
+          "invested": 41755676,
+          "eval": 92627500,
+          "pnl": 50871824,
+          "pct": 121.83
+        },
+        "eval": 92627500
       },
       {
         "date": "2026-02-04",
-        "pct": 160.34,
-        "invested": 31896776,
-        "pnl": 51144624,
+        "pct": 123.48,
+        "invested": 41755676,
+        "pnl": 51560624,
         "nh": {
           "invested": 11974676,
           "eval": 32947600,
@@ -8159,28 +8193,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 50093800,
-          "pnl": 30171700,
-          "pct": 151.45
+          "eval": 50391800,
+          "pnl": 30469700,
+          "pct": 152.94
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9976900,
+          "pnl": 118000,
+          "pct": 1.2
         },
         "total": {
-          "invested": 31896776,
-          "eval": 83041400,
-          "pnl": 51144624,
-          "pct": 160.34
-        }
+          "invested": 41755676,
+          "eval": 93316300,
+          "pnl": 51560624,
+          "pct": 123.48
+        },
+        "eval": 93316300
       },
       {
         "date": "2026-02-05",
-        "pct": 149.5,
-        "invested": 31896776,
-        "pnl": 47686624,
+        "pct": 111.82,
+        "invested": 41755676,
+        "pnl": 46690024,
         "nh": {
           "invested": 11974676,
           "eval": 31575600,
@@ -8189,28 +8224,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 48007800,
-          "pnl": 28085700,
-          "pct": 140.98
+          "eval": 47471400,
+          "pnl": 27549300,
+          "pct": 138.29
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9398700,
+          "pnl": -460200,
+          "pct": -4.67
         },
         "total": {
-          "invested": 31896776,
-          "eval": 79583400,
-          "pnl": 47686624,
-          "pct": 149.5
-        }
+          "invested": 41755676,
+          "eval": 88445700,
+          "pnl": 46690024,
+          "pct": 111.82
+        },
+        "eval": 88445700
       },
       {
         "date": "2026-02-06",
-        "pct": 149.35,
-        "invested": 31896776,
-        "pnl": 47637224,
+        "pct": 111.17,
+        "invested": 41755676,
+        "pnl": 46420524,
         "nh": {
           "invested": 11974676,
           "eval": 31556000,
@@ -8219,28 +8255,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 47978000,
-          "pnl": 28055900,
-          "pct": 140.83
+          "eval": 47262800,
+          "pnl": 27340700,
+          "pct": 137.24
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9357400,
+          "pnl": -501500,
+          "pct": -5.09
         },
         "total": {
-          "invested": 31896776,
-          "eval": 79534000,
-          "pnl": 47637224,
-          "pct": 149.35
-        }
+          "invested": 41755676,
+          "eval": 88176200,
+          "pnl": 46420524,
+          "pct": 111.17
+        },
+        "eval": 88176200
       },
       {
         "date": "2026-02-09",
-        "pct": 153.22,
-        "invested": 31896776,
-        "pnl": 48872224,
+        "pct": 119.01,
+        "invested": 41755676,
+        "pnl": 49695124,
         "nh": {
           "invested": 11974676,
           "eval": 32046000,
@@ -8249,28 +8286,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 48723000,
-          "pnl": 28800900,
-          "pct": 144.57
+          "eval": 49587200,
+          "pnl": 29665100,
+          "pct": 148.91
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9817600,
+          "pnl": -41300,
+          "pct": -0.42
         },
         "total": {
-          "invested": 31896776,
-          "eval": 80769000,
-          "pnl": 48872224,
-          "pct": 153.22
-        }
+          "invested": 41755676,
+          "eval": 91450800,
+          "pnl": 49695124,
+          "pct": 119.01
+        },
+        "eval": 91450800
       },
       {
         "date": "2026-02-10",
-        "pct": 157.87,
-        "invested": 31896776,
-        "pnl": 50354224,
+        "pct": 119.91,
+        "invested": 41755676,
+        "pnl": 50068924,
         "nh": {
           "invested": 11974676,
           "eval": 32634000,
@@ -8279,28 +8317,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 49617000,
-          "pnl": 29694900,
-          "pct": 149.06
+          "eval": 49408400,
+          "pnl": 29486300,
+          "pct": 148.01
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9782200,
+          "pnl": -76700,
+          "pct": -0.78
         },
         "total": {
-          "invested": 31896776,
-          "eval": 82251000,
-          "pnl": 50354224,
-          "pct": 157.87
-        }
+          "invested": 41755676,
+          "eval": 91824600,
+          "pnl": 50068924,
+          "pct": 119.91
+        },
+        "eval": 91824600
       },
       {
         "date": "2026-02-11",
-        "pct": 158.33,
-        "invested": 31896776,
-        "pnl": 50502424,
+        "pct": 121.76,
+        "invested": 41755676,
+        "pnl": 50841724,
         "nh": {
           "invested": 11974676,
           "eval": 32692800,
@@ -8309,28 +8348,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 49706400,
-          "pnl": 29784300,
-          "pct": 149.5
+          "eval": 50004400,
+          "pnl": 30082300,
+          "pct": 151.0
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 9900200,
+          "pnl": 41300,
+          "pct": 0.42
         },
         "total": {
-          "invested": 31896776,
-          "eval": 82399200,
-          "pnl": 50502424,
-          "pct": 158.33
-        }
+          "invested": 41755676,
+          "eval": 92597400,
+          "pnl": 50841724,
+          "pct": 121.76
+        },
+        "eval": 92597400
       },
       {
         "date": "2026-02-12",
-        "pct": 178.62,
-        "invested": 31896776,
-        "pnl": 56973824,
+        "pct": 137.14,
+        "invested": 41755676,
+        "pnl": 57264924,
         "nh": {
           "invested": 11974676,
           "eval": 35260400,
@@ -8339,28 +8379,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 53610200,
-          "pnl": 33688100,
-          "pct": 169.1
+          "eval": 53222800,
+          "pnl": 33300700,
+          "pct": 167.15
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 10537400,
+          "pnl": 678500,
+          "pct": 6.88
         },
         "total": {
-          "invested": 31896776,
-          "eval": 88870600,
-          "pnl": 56973824,
-          "pct": 178.62
-        }
+          "invested": 41755676,
+          "eval": 99020600,
+          "pnl": 57264924,
+          "pct": 137.14
+        },
+        "eval": 99020600
       },
       {
         "date": "2026-02-13",
-        "pct": 182.49,
-        "invested": 31896776,
-        "pnl": 58208824,
+        "pct": 140.54,
+        "invested": 41755676,
+        "pnl": 58683124,
         "nh": {
           "invested": 11974676,
           "eval": 35750400,
@@ -8369,28 +8410,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 54355200,
-          "pnl": 34433100,
-          "pct": 172.84
+          "eval": 53997600,
+          "pnl": 34075500,
+          "pct": 171.04
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 10690800,
+          "pnl": 831900,
+          "pct": 8.44
         },
         "total": {
-          "invested": 31896776,
-          "eval": 90105600,
-          "pnl": 58208824,
-          "pct": 182.49
-        }
+          "invested": 41755676,
+          "eval": 100438800,
+          "pnl": 58683124,
+          "pct": 140.54
+        },
+        "eval": 100438800
       },
       {
         "date": "2026-02-19",
-        "pct": 192.56,
-        "invested": 31896776,
-        "pnl": 61419824,
+        "pct": 151.11,
+        "invested": 41755676,
+        "pnl": 63098724,
         "nh": {
           "invested": 11974676,
           "eval": 37024400,
@@ -8399,28 +8441,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 56292200,
-          "pnl": 36370100,
-          "pct": 182.56
+          "eval": 56620000,
+          "pnl": 36697900,
+          "pct": 184.21
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 11210000,
+          "pnl": 1351100,
+          "pct": 13.7
         },
         "total": {
-          "invested": 31896776,
-          "eval": 93316600,
-          "pnl": 61419824,
-          "pct": 192.56
-        }
+          "invested": 41755676,
+          "eval": 104854400,
+          "pnl": 63098724,
+          "pct": 151.11
+        },
+        "eval": 104854400
       },
       {
         "date": "2026-02-20",
-        "pct": 194.73,
-        "invested": 31896776,
-        "pnl": 62111424,
+        "pct": 151.86,
+        "invested": 41755676,
+        "pnl": 63408824,
         "nh": {
           "invested": 11974676,
           "eval": 37298800,
@@ -8429,28 +8472,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 56709400,
-          "pnl": 36787300,
-          "pct": 184.66
+          "eval": 56649800,
+          "pnl": 36727700,
+          "pct": 184.36
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 11215900,
+          "pnl": 1357000,
+          "pct": 13.76
         },
         "total": {
-          "invested": 31896776,
-          "eval": 94008200,
-          "pnl": 62111424,
-          "pct": 194.73
-        }
+          "invested": 41755676,
+          "eval": 105164500,
+          "pnl": 63408824,
+          "pct": 151.86
+        },
+        "eval": 105164500
       },
       {
         "date": "2026-02-23",
-        "pct": 200.03,
-        "invested": 31975051,
-        "pnl": 63959749,
+        "pct": 155.69,
+        "invested": 41833951,
+        "pnl": 65130249,
         "nh": {
           "invested": 12052951,
           "eval": 38063200,
@@ -8459,28 +8503,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 57871600,
-          "pnl": 37949500,
-          "pct": 190.49
+          "eval": 57514000,
+          "pnl": 37591900,
+          "pct": 188.69
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 11387000,
+          "pnl": 1528100,
+          "pct": 15.5
         },
         "total": {
-          "invested": 31975051,
-          "eval": 95934800,
-          "pnl": 63959749,
-          "pct": 200.03
-        }
+          "invested": 41833951,
+          "eval": 106964200,
+          "pnl": 65130249,
+          "pct": 155.69
+        },
+        "eval": 106964200
       },
       {
         "date": "2026-02-24",
-        "pct": 245.37,
-        "invested": 31896776,
-        "pnl": 78265224,
+        "pct": 175.67,
+        "invested": 41755676,
+        "pnl": 73352324,
         "nh": {
           "invested": 11974676,
           "eval": 43708000,
@@ -8489,28 +8534,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 66454000,
-          "pnl": 46531900,
-          "pct": 233.57
+          "eval": 59600000,
+          "pnl": 39677900,
+          "pct": 199.17
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 11800000,
+          "pnl": 1941100,
+          "pct": 19.69
         },
         "total": {
-          "invested": 31896776,
-          "eval": 110162000,
-          "pnl": 78265224,
-          "pct": 245.37
-        }
+          "invested": 41755676,
+          "eval": 115108000,
+          "pnl": 73352324,
+          "pct": 175.67
+        },
+        "eval": 115108000
       },
       {
         "date": "2026-02-25",
-        "pct": 218.27,
-        "invested": 31896776,
-        "pnl": 69620224,
+        "pct": 170.45,
+        "invested": 41755676,
+        "pnl": 71171824,
         "nh": {
           "invested": 11974676,
           "eval": 40278000,
@@ -8519,28 +8565,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 61239000,
-          "pnl": 41316900,
-          "pct": 207.39
+          "eval": 60643000,
+          "pnl": 40720900,
+          "pct": 204.4
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 12006500,
+          "pnl": 2147600,
+          "pct": 21.78
         },
         "total": {
-          "invested": 31896776,
-          "eval": 101517000,
-          "pnl": 69620224,
-          "pct": 218.27
-        }
+          "invested": 41755676,
+          "eval": 112927500,
+          "pnl": 71171824,
+          "pct": 170.45
+        },
+        "eval": 112927500
       },
       {
         "date": "2026-02-27",
-        "pct": 236.85,
-        "invested": 31896776,
-        "pnl": 75548224,
+        "pct": 187.2,
+        "invested": 41755676,
+        "pnl": 78164824,
         "nh": {
           "invested": 11974676,
           "eval": 42630000,
@@ -8549,28 +8596,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 64815000,
-          "pnl": 44892900,
-          "pct": 225.34
+          "eval": 64517000,
+          "pnl": 44594900,
+          "pct": 223.85
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 12773500,
+          "pnl": 2914600,
+          "pct": 29.56
         },
         "total": {
-          "invested": 31896776,
-          "eval": 107445000,
-          "pnl": 75548224,
-          "pct": 236.85
-        }
+          "invested": 41755676,
+          "eval": 119920500,
+          "pnl": 78164824,
+          "pct": 187.2
+        },
+        "eval": 119920500
       },
       {
         "date": "2026-03-03",
-        "pct": 188.07,
-        "invested": 31896776,
-        "pnl": 59987224,
+        "pct": 154.11,
+        "invested": 41755676,
+        "pnl": 64351024,
         "nh": {
           "invested": 11974676,
           "eval": 36456000,
@@ -8579,28 +8627,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 55428000,
-          "pnl": 35505900,
-          "pct": 178.22
+          "eval": 58139800,
+          "pnl": 38217700,
+          "pct": 191.84
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 11510900,
+          "pnl": 1652000,
+          "pct": 16.76
         },
         "total": {
-          "invested": 31896776,
-          "eval": 91884000,
-          "pnl": 59987224,
-          "pct": 188.07
-        }
+          "invested": 41755676,
+          "eval": 106106700,
+          "pnl": 64351024,
+          "pct": 154.11
+        },
+        "eval": 106106700
       },
       {
         "date": "2026-03-04",
-        "pct": 181.25,
-        "invested": 31896776,
-        "pnl": 57813624,
+        "pct": 132.47,
+        "invested": 41755676,
+        "pnl": 55313324,
         "nh": {
           "invested": 11974676,
           "eval": 35593600,
@@ -8609,28 +8658,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 54116800,
-          "pnl": 34194700,
-          "pct": 171.64
+          "eval": 51315600,
+          "pnl": 31393500,
+          "pct": 157.58
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 10159800,
+          "pnl": 300900,
+          "pct": 3.05
         },
         "total": {
-          "invested": 31896776,
-          "eval": 89710400,
-          "pnl": 57813624,
-          "pct": 181.25
-        }
+          "invested": 41755676,
+          "eval": 97069000,
+          "pnl": 55313324,
+          "pct": 132.47
+        },
+        "eval": 97069000
       },
       {
         "date": "2026-03-05",
-        "pct": 199.68,
-        "invested": 31896776,
-        "pnl": 63692224,
+        "pct": 154.64,
+        "invested": 41755676,
+        "pnl": 64571524,
         "nh": {
           "invested": 11974676,
           "eval": 37926000,
@@ -8639,28 +8689,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 57663000,
-          "pnl": 37740900,
-          "pct": 189.44
+          "eval": 57096800,
+          "pnl": 37174700,
+          "pct": 186.6
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 11304400,
+          "pnl": 1445500,
+          "pct": 14.66
         },
         "total": {
-          "invested": 31896776,
-          "eval": 95589000,
-          "pnl": 63692224,
-          "pct": 199.68
-        }
+          "invested": 41755676,
+          "eval": 106327200,
+          "pnl": 64571524,
+          "pct": 154.64
+        },
+        "eval": 106327200
       },
       {
         "date": "2026-03-06",
-        "pct": 187.76,
-        "invested": 31896776,
-        "pnl": 59888424,
+        "pct": 148.12,
+        "invested": 41755676,
+        "pnl": 61848524,
         "nh": {
           "invested": 11974676,
           "eval": 36416800,
@@ -8669,28 +8720,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 55368400,
-          "pnl": 35446300,
-          "pct": 177.92
+          "eval": 56083600,
+          "pnl": 36161500,
+          "pct": 181.51
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 11103800,
+          "pnl": 1244900,
+          "pct": 12.63
         },
         "total": {
-          "invested": 31896776,
-          "eval": 91785200,
-          "pnl": 59888424,
-          "pct": 187.76
-        }
+          "invested": 41755676,
+          "eval": 103604200,
+          "pnl": 61848524,
+          "pct": 148.12
+        },
+        "eval": 103604200
       },
       {
         "date": "2026-03-09",
-        "pct": 165.61,
-        "invested": 31896776,
-        "pnl": 52824224,
+        "pct": 128.84,
+        "invested": 41755676,
+        "pnl": 53797824,
         "nh": {
           "invested": 11974676,
           "eval": 33614000,
@@ -8699,28 +8751,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 51107000,
-          "pnl": 31184900,
-          "pct": 156.53
+          "eval": 51703000,
+          "pnl": 31780900,
+          "pct": 159.53
         },
         "kb": {
-          "invested": null,
-          "eval": null,
-          "pnl": null,
-          "pct": null
+          "invested": 9858900,
+          "eval": 10236500,
+          "pnl": 377600,
+          "pct": 3.83
         },
         "total": {
-          "invested": 31896776,
-          "eval": 84721000,
-          "pnl": 52824224,
-          "pct": 165.61
-        }
+          "invested": 41755676,
+          "eval": 95553500,
+          "pnl": 53797824,
+          "pct": 128.84
+        },
+        "eval": 95553500
       },
       {
         "date": "2026-03-10",
-        "pct": 197.98,
+        "pct": 166.26,
         "invested": 41755676,
-        "pnl": 82669324,
+        "pnl": 69424624,
         "nh": {
           "invested": 11974676,
           "eval": 44100000,
@@ -8729,28 +8782,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 67050000,
-          "pnl": 47127900,
-          "pct": 236.56
+          "eval": 55994200,
+          "pnl": 36072100,
+          "pct": 181.07
         },
         "kb": {
           "invested": 9858900,
-          "eval": 13275000,
-          "pnl": 3416100,
-          "pct": 34.65
+          "eval": 11086100,
+          "pnl": 1227200,
+          "pct": 12.45
         },
         "total": {
           "invested": 41755676,
-          "eval": 124425000,
-          "pnl": 82669324,
-          "pct": 197.98
-        }
+          "eval": 111180300,
+          "pnl": 69424624,
+          "pct": 166.26
+        },
+        "eval": 111180300
       },
       {
         "date": "2026-04-28",
-        "pct": 191.36,
+        "pct": 193.07,
         "invested": 41755676,
-        "pnl": 79904324,
+        "pnl": 80618324,
         "nh": {
           "invested": 11974676,
           "eval": 43120000,
@@ -8759,28 +8813,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 65560000,
-          "pnl": 45637900,
-          "pct": 229.08
+          "eval": 66156000,
+          "pnl": 46233900,
+          "pct": 232.07
         },
         "kb": {
           "invested": 9858900,
-          "eval": 12980000,
-          "pnl": 3121100,
-          "pct": 31.66
+          "eval": 13098000,
+          "pnl": 3239100,
+          "pct": 32.85
         },
         "total": {
           "invested": 41755676,
-          "eval": 121660000,
-          "pnl": 79904324,
-          "pct": 191.36
-        }
+          "eval": 122374000,
+          "pnl": 80618324,
+          "pct": 193.07
+        },
+        "eval": 122374000
       },
       {
         "date": "2026-04-29",
-        "pct": 199.97,
+        "pct": 199.54,
         "invested": 41755676,
-        "pnl": 83498824,
+        "pnl": 83320324,
         "nh": {
           "invested": 11974676,
           "eval": 44394000,
@@ -8789,28 +8844,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 67497000,
-          "pnl": 47574900,
-          "pct": 238.8
+          "eval": 67348000,
+          "pnl": 47425900,
+          "pct": 238.06
         },
         "kb": {
           "invested": 9858900,
-          "eval": 13363500,
-          "pnl": 3504600,
-          "pct": 35.55
+          "eval": 13334000,
+          "pnl": 3475100,
+          "pct": 35.25
         },
         "total": {
           "invested": 41755676,
-          "eval": 125254500,
-          "pnl": 83498824,
-          "pct": 199.97
-        }
+          "eval": 125076000,
+          "pnl": 83320324,
+          "pct": 199.54
+        },
+        "eval": 125076000
       },
       {
         "date": "2026-04-30",
-        "pct": 194.67,
+        "pct": 192.96,
         "invested": 41755676,
-        "pnl": 81286824,
+        "pnl": 80572824,
         "nh": {
           "invested": 11974676,
           "eval": 43610000,
@@ -8819,28 +8875,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 66305000,
-          "pnl": 46382900,
-          "pct": 232.82
+          "eval": 65709000,
+          "pnl": 45786900,
+          "pct": 229.83
         },
         "kb": {
           "invested": 9858900,
-          "eval": 13127500,
-          "pnl": 3268600,
-          "pct": 33.15
+          "eval": 13009500,
+          "pnl": 3150600,
+          "pct": 31.96
         },
         "total": {
           "invested": 41755676,
-          "eval": 123042500,
-          "pnl": 81286824,
-          "pct": 194.67
-        }
+          "eval": 122328500,
+          "pnl": 80572824,
+          "pct": 192.96
+        },
+        "eval": 122328500
       },
       {
         "date": "2026-05-04",
-        "pct": 204.61,
+        "pct": 206.74,
         "invested": 41755676,
-        "pnl": 85434324,
+        "pnl": 86326824,
         "nh": {
           "invested": 11974676,
           "eval": 45080000,
@@ -8849,28 +8906,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 68540000,
-          "pnl": 48617900,
-          "pct": 244.04
+          "eval": 69285000,
+          "pnl": 49362900,
+          "pct": 247.78
         },
         "kb": {
           "invested": 9858900,
-          "eval": 13570000,
-          "pnl": 3711100,
-          "pct": 37.64
+          "eval": 13717500,
+          "pnl": 3858600,
+          "pct": 39.14
         },
         "total": {
           "invested": 41755676,
-          "eval": 127190000,
-          "pnl": 85434324,
-          "pct": 204.61
-        }
+          "eval": 128082500,
+          "pnl": 86326824,
+          "pct": 206.74
+        },
+        "eval": 128082500
       },
       {
         "date": "2026-05-06",
-        "pct": 372.14,
+        "pct": 294.76,
         "invested": 41755676,
-        "pnl": 155388824,
+        "pnl": 123080324,
         "nh": {
           "invested": 11974676,
           "eval": 69874000,
@@ -8879,28 +8937,29 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 106237000,
-          "pnl": 86314900,
-          "pct": 433.26
+          "eval": 79268000,
+          "pnl": 59345900,
+          "pct": 297.89
         },
         "kb": {
           "invested": 9858900,
-          "eval": 21033500,
-          "pnl": 11174600,
-          "pct": 113.35
+          "eval": 15694000,
+          "pnl": 5835100,
+          "pct": 59.19
         },
         "total": {
           "invested": 41755676,
-          "eval": 197144500,
-          "pnl": 155388824,
-          "pct": 372.14
-        }
+          "eval": 164836000,
+          "pnl": 123080324,
+          "pct": 294.76
+        },
+        "eval": 164836000
       },
       {
         "date": "2026-06-23",
-        "pct": 311.22,
+        "pct": 310.79,
         "invested": 41755676,
-        "pnl": 129950824,
+        "pnl": 129772324,
         "nh": {
           "invested": 11974676,
           "eval": 60858000,
@@ -8909,22 +8968,23 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 92529000,
-          "pnl": 72606900,
-          "pct": 364.45
+          "eval": 92380000,
+          "pnl": 72457900,
+          "pct": 363.71
         },
         "kb": {
           "invested": 9858900,
-          "eval": 18319500,
-          "pnl": 8460600,
-          "pct": 85.82
+          "eval": 18290000,
+          "pnl": 8431100,
+          "pct": 85.52
         },
         "total": {
           "invested": 41755676,
-          "eval": 171706500,
-          "pnl": 129950824,
-          "pct": 311.22
-        }
+          "eval": 171528000,
+          "pnl": 129772324,
+          "pct": 310.79
+        },
+        "eval": 171528000
       },
       {
         "date": "2026-06-24",
@@ -8954,7 +9014,8 @@
           "eval": 188296500,
           "pnl": 146540824,
           "pct": 350.95
-        }
+        },
+        "eval": 188296500
       },
       {
         "date": "2026-06-25",
@@ -8984,7 +9045,8 @@
           "eval": 198250500,
           "pnl": 156494824,
           "pct": 374.79
-        }
+        },
+        "eval": 198250500
       },
       {
         "date": "2026-06-26",
@@ -9014,7 +9076,8 @@
           "eval": 187743500,
           "pnl": 145987824,
           "pct": 349.62
-        }
+        },
+        "eval": 187743500
       },
       {
         "date": "2026-06-29",
@@ -9044,7 +9107,8 @@
           "eval": 178619000,
           "pnl": 136863324,
           "pct": 327.77
-        }
+        },
+        "eval": 178619000
       },
       {
         "date": "2026-06-30",
@@ -9074,7 +9138,8 @@
           "eval": 184702000,
           "pnl": 142946324,
           "pct": 342.34
-        }
+        },
+        "eval": 184702000
       },
       {
         "date": "2026-07-01",
@@ -9104,7 +9169,8 @@
           "eval": 173918500,
           "pnl": 132162824,
           "pct": 316.51
-        }
+        },
+        "eval": 173918500
       },
       {
         "date": "2026-07-02",
@@ -9134,7 +9200,8 @@
           "eval": 158158000,
           "pnl": 116402324,
           "pct": 278.77
-        }
+        },
+        "eval": 158158000
       },
       {
         "date": "2026-07-03",
@@ -9164,7 +9231,8 @@
           "eval": 171153500,
           "pnl": 129397824,
           "pct": 309.89
-        }
+        },
+        "eval": 171153500
       },
       {
         "date": "2026-07-06",
@@ -9194,7 +9262,8 @@
           "eval": 175854000,
           "pnl": 134098324,
           "pct": 321.15
-        }
+        },
+        "eval": 175854000
       },
       {
         "date": "2026-07-07",
@@ -9224,7 +9293,8 @@
           "eval": 163688000,
           "pnl": 121932324,
           "pct": 292.01
-        }
+        },
+        "eval": 163688000
       },
       {
         "date": "2026-07-08",
@@ -9254,7 +9324,8 @@
           "eval": 153457500,
           "pnl": 111701824,
           "pct": 267.51
-        }
+        },
+        "eval": 153457500
       },
       {
         "date": "2026-07-09",
@@ -9284,7 +9355,8 @@
           "eval": 153734000,
           "pnl": 111978324,
           "pct": 268.18
-        }
+        },
+        "eval": 153734000
       },
       {
         "date": "2026-07-10",
@@ -9314,7 +9386,8 @@
           "eval": 157605000,
           "pnl": 115849324,
           "pct": 277.45
-        }
+        },
+        "eval": 157605000
       },
       {
         "date": "2026-07-13",
@@ -9344,7 +9417,8 @@
           "eval": 140738500,
           "pnl": 98982824,
           "pct": 237.05
-        }
+        },
+        "eval": 140738500
       },
       {
         "date": "2026-07-14",
@@ -9374,7 +9448,8 @@
           "eval": 145439000,
           "pnl": 103683324,
           "pct": 248.31
-        }
+        },
+        "eval": 145439000
       },
       {
         "date": "2026-07-15",
@@ -9404,7 +9479,8 @@
           "eval": 154563500,
           "pnl": 112807824,
           "pct": 270.16
-        }
+        },
+        "eval": 154563500
       },
       {
         "date": "2026-07-16",
@@ -9434,7 +9510,8 @@
           "eval": 141015000,
           "pnl": 99259324,
           "pct": 237.71
-        }
+        },
+        "eval": 141015000
       },
       {
         "date": "2026-07-20",
@@ -9464,7 +9541,8 @@
           "eval": 134932000,
           "pnl": 93176324,
           "pct": 223.15
-        }
+        },
+        "eval": 134932000
       },
       {
         "date": "2026-07-21",
@@ -9494,7 +9572,8 @@
           "eval": 143227000,
           "pnl": 101471324,
           "pct": 243.01
-        }
+        },
+        "eval": 143227000
       },
       {
         "date": "2026-07-22",
@@ -9524,7 +9603,8 @@
           "eval": 144056500,
           "pnl": 102300824,
           "pct": 245.0
-        }
+        },
+        "eval": 144056500
       },
       {
         "date": "2026-07-23",
@@ -9554,7 +9634,8 @@
           "eval": 149310000,
           "pnl": 107554324,
           "pct": 257.58
-        }
+        },
+        "eval": 149310000
       },
       {
         "date": "2026-07-24",
@@ -9584,7 +9665,8 @@
           "eval": 137973500,
           "pnl": 96217824,
           "pct": 230.43
-        }
+        },
+        "eval": 137973500
       },
       {
         "date": "2026-07-27",
@@ -9614,7 +9696,8 @@
           "eval": 140462000,
           "pnl": 98706324,
           "pct": 236.39
-        }
+        },
+        "eval": 140462000
       },
       {
         "date": "2026-07-28",
@@ -9644,7 +9727,8 @@
           "eval": 121660000,
           "pnl": 79904324,
           "pct": 191.36
-        }
+        },
+        "eval": 121660000
       },
       {
         "date": "2026-07-29",
@@ -9674,7 +9758,8 @@
           "eval": 115300500,
           "pnl": 73544824,
           "pct": 176.13
-        }
+        },
+        "eval": 115300500
       },
       {
         "date": "2026-07-30",
@@ -9704,7 +9789,8 @@
           "eval": 114471000,
           "pnl": 72715324,
           "pct": 174.14
-        }
+        },
+        "eval": 114471000
       },
       {
         "date": "2026-07-31",
@@ -9734,7 +9820,8 @@
           "eval": 145162500,
           "pnl": 103406824,
           "pct": 247.65
-        }
+        },
+        "eval": 145162500
       },
       {
         "date": "2026-08-03",
@@ -9764,7 +9851,8 @@
           "eval": 132443500,
           "pnl": 90687824,
           "pct": 217.19
-        }
+        },
+        "eval": 132443500
       },
       {
         "date": "2026-08-04",
@@ -9794,7 +9882,8 @@
           "eval": 132720000,
           "pnl": 90964324,
           "pct": 217.85
-        }
+        },
+        "eval": 132720000
       },
       {
         "date": "2026-08-05",
@@ -9824,7 +9913,8 @@
           "eval": 136038000,
           "pnl": 94282324,
           "pct": 225.8
-        }
+        },
+        "eval": 136038000
       },
       {
         "date": "2026-08-06",
@@ -9854,7 +9944,8 @@
           "eval": 127466500,
           "pnl": 85710824,
           "pct": 205.27
-        }
+        },
+        "eval": 127466500
       },
       {
         "date": "2026-08-07",
@@ -9884,7 +9975,8 @@
           "eval": 127743000,
           "pnl": 85987324,
           "pct": 205.93
-        }
+        },
+        "eval": 127743000
       },
       {
         "date": "2026-08-10",
@@ -9914,7 +10006,8 @@
           "eval": 127190000,
           "pnl": 85434324,
           "pct": 204.61
-        }
+        },
+        "eval": 127190000
       },
       {
         "date": "2026-08-11",
@@ -9944,7 +10037,8 @@
           "eval": 132443500,
           "pnl": 90687824,
           "pct": 217.19
-        }
+        },
+        "eval": 132443500
       },
       {
         "date": "2026-08-12",
@@ -9974,7 +10068,8 @@
           "eval": 141291500,
           "pnl": 99535824,
           "pct": 238.38
-        }
+        },
+        "eval": 141291500
       },
       {
         "date": "2026-08-13",
@@ -10004,7 +10099,8 @@
           "eval": 148204000,
           "pnl": 106448324,
           "pct": 254.93
-        }
+        },
+        "eval": 148204000
       },
       {
         "date": "2026-08-14",
@@ -10034,7 +10130,8 @@
           "eval": 151798500,
           "pnl": 110042824,
           "pct": 263.54
-        }
+        },
+        "eval": 151798500
       },
       {
         "date": "2026-08-18",
@@ -10064,7 +10161,8 @@
           "eval": 148480500,
           "pnl": 106724824,
           "pct": 255.59
-        }
+        },
+        "eval": 148480500
       },
       {
         "date": "2026-08-19",
@@ -10094,13 +10192,14 @@
           "eval": 136867500,
           "pnl": 95111824,
           "pct": 227.78
-        }
+        },
+        "eval": 136867500
       },
       {
         "date": "2026-08-20",
-        "pct": 227.78,
+        "pct": 247.87,
         "invested": 41755676,
-        "pnl": 95111824,
+        "pnl": 103501324,
         "nh": {
           "invested": 11974676,
           "eval": 48510000,
@@ -10109,29 +10208,30 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 73755000,
-          "pnl": 53832900,
-          "pct": 270.22
+          "eval": 80758000,
+          "pnl": 60835900,
+          "pct": 305.37
         },
         "kb": {
           "invested": 9858900,
-          "eval": 14602500,
-          "pnl": 4743600,
-          "pct": 48.11
+          "eval": 15989000,
+          "pnl": 6130100,
+          "pct": 62.18
         },
         "total": {
           "invested": 41755676,
-          "eval": 136867500,
-          "pnl": 95111824,
-          "pct": 227.78
-        }
+          "eval": 145257000,
+          "pnl": 103501324,
+          "pct": 247.87
+        },
+        "eval": 145257000
       },
       {
-        "date": "2026-08-23",
+        "date": "2026-08-21",
         "invested": 41755620,
-        "eval": 143531500,
-        "pnl": 101775880,
-        "pct": 243.74,
+        "eval": 155669500,
+        "pnl": 113913880,
+        "pct": 272.81,
         "nh": {
           "invested": 11974620,
           "eval": 55174000,
@@ -10140,21 +10240,21 @@
         },
         "mirae": {
           "invested": 19922100,
-          "eval": 73755000,
-          "pnl": 53832900,
-          "pct": 270.22
+          "eval": 83887000,
+          "pnl": 63964900,
+          "pct": 321.08
         },
         "kb": {
           "invested": 9858900,
-          "eval": 14602500,
-          "pnl": 4743600,
-          "pct": 48.11
+          "eval": 16608500,
+          "pnl": 6749600,
+          "pct": 68.46
         },
         "total": {
           "invested": 41755620,
-          "eval": 143531500,
-          "pnl": 101775880,
-          "pct": 243.74
+          "eval": 155669500,
+          "pnl": 113913880,
+          "pct": 272.81
         }
       }
     ],

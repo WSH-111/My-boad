@@ -123,6 +123,54 @@ def get_all_balances(token, account_no):
     return final_output0, all_output1
 
 
+def get_realized_pnl(token, account_no):
+    """
+    국내_주식_조회_실현손익 API — 계좌의 실현손익(매도 완료분 포함 전체)을 조회.
+    iqr_dit_cd1="0"(전체)로 조회하면 현재 미보유(전량 매도) 종목도 포함되어 내려온다.
+    """
+    cts_flag = "N"
+    cts = ""
+    all_output1 = []
+
+    while True:
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "cts_flag": cts_flag,
+            "cts": cts,
+        }
+        json_body = {
+            "Input_0": {
+                "act_no": account_no,
+                "iqr_dit_cd1": "0",   # 0: 전체 (잔고종목 + 매도완료종목 모두 포함)
+                "fee_dit_cd": "1",    # 1: 온라인
+                "qut_dit_cd": "KRX",  # KRX 정규장 시세만
+            }
+        }
+        result, resp_headers = http_post(
+            f"{DOMAIN}/krstock/inquiry/v1/realizedPnl",
+            headers=headers,
+            json_body=json_body,
+        )
+
+        rsp_cd = result.get("rsp_cd")
+        if rsp_cd not in (None, "00166", "00218"):
+            print(f"경고: 실현손익조회 응답코드 {rsp_cd} - {result.get('rsp_msg')}", file=sys.stderr)
+
+        output1 = result.get("Output_1", [])
+        if output1:
+            all_output1.extend(output1)
+
+        next_cts_flag = resp_headers.get("cts_flag") or result.get("cts_flag", "N")
+        next_cts = resp_headers.get("cts") or result.get("cts", "")
+        if next_cts_flag == "Y" and next_cts:
+            cts_flag = "Y"
+            cts = next_cts
+        else:
+            break
+
+    return all_output1
+
+
 # 2026년 KRX 휴장일 (주말 제외, 평일 중 시장이 쉬는 날).
 # 출처: 한국거래소 공지 기준. 연도가 바뀌면 이 목록을 갱신해야 합니다.
 KRX_HOLIDAYS_2026 = {
@@ -204,6 +252,7 @@ def main():
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
+    realized_output1 = get_realized_pnl(token, account_no)
 
     today = today_iso
 
@@ -263,6 +312,32 @@ def main():
     if today not in store["dates"]:
         store["dates"].append(today)
         store["dates"].sort()
+
+    # ---- 실현손익(매도 완료 종목) 갱신 ----
+    realized_stocks = {}
+    for item in realized_output1:
+        raw_name = (item.get("iem_nm") or "").strip()
+        if not raw_name or raw_name.startswith("<"):
+            continue
+        qty = num(item.get("itg_bnc_qty"))
+        if qty != 0:
+            continue  # 아직 보유 중인 종목은 제외 (02번 섹션에서 이미 다룸)
+        name = canon(raw_name)
+        rzt_pnl = round(num(item.get("rzt_pls_amt")))
+        principal = round(num(item.get("ost_phs_amt_pna")))
+        pct = round(rzt_pnl / principal * 100, 2) if principal else None
+        prev = realized_stocks.get(name)
+        if prev:
+            # 같은 종목이 여러 건(분할매도 등)으로 나뉘어 나올 수 있어 합산
+            prev["pnl"] += rzt_pnl
+            prev["principal"] += principal
+            prev["pct"] = round(prev["pnl"] / prev["principal"] * 100, 2) if prev["principal"] else None
+        else:
+            realized_stocks[name] = {"pnl": rzt_pnl, "principal": principal, "pct": pct}
+
+    if realized_stocks:
+        store["realizedStocks"] = realized_stocks
+        store["realizedAsOf"] = today
 
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
     nh_eval = round(num(output0.get("tot_eal_amt")))
