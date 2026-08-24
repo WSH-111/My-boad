@@ -447,6 +447,12 @@ def main():
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
     nh_eval = round(num(output0.get("tot_eal_amt")))
     nh_invested = round(num(output0.get("tot_byn_amt")))
+
+    print("NH 원금 =", nh_invested)
+    print("미래에셋 =", MIRAE_INV)
+    print("KB =", KB_INV)
+    print("합산 =", nh_invested + MIRAE_INV + KB_INV)
+  
     nh_pnl = round(num(output0.get("tot_eal_pls")))
     nh_pct = output0.get("pft_rt")
     nh_pct = round(num(nh_pct), 2) if nh_pct not in (None, "") else (
