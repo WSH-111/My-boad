@@ -12739,7 +12739,7 @@
       }
     ]
   },
-  "lastUpdated": "2026-08-24 15:52",
+  "lastUpdated": "2026-08-24 16:11",
   "realizedStocks": {
     "덕양에너젠": {
       "pnl": 983090,
@@ -12796,9 +12796,9 @@
       "held": true
     },
     "TIGER 화장품": {
-      "pnl": 499405,
-      "principal": 4069965,
-      "pct": 12.27,
+      "pnl": 582125,
+      "principal": 4386225,
+      "pct": 13.27,
       "held": true
     }
   },
