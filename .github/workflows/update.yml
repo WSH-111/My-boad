@@ -2,11 +2,9 @@ name: portfolio-update
 
 on:
   schedule:
-    # 한국시간 평일 09:00 ~ 15:30 (UTC 기준 00:00 ~ 06:30) 10분 간격 실행
-    - cron: '*/10 0-5 * * 1-5'
-    - cron: '0,10,20,30 6 * * 1-5'
+    # 한국시간 평일 09:00 ~ 15:30 (UTC 기준 00:00 ~ 06:30) 10분 간격 실행   
+    - cron: "0,30 0-6 * * 1-5"
   workflow_dispatch: # 수동 실행 버튼 유지
-
   
 
 permissions:
