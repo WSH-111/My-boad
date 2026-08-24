@@ -321,8 +321,9 @@ def main():
     if not already_backfilled:
         trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
     elif realized_through == today:
-        do_fetch = False
-        trading_pnl_start = None
+    # 오늘 이미 확인했더라도 당일 매도 건 반영을 위해 오늘 날짜 구간만 다시 조회
+    do_fetch = True
+    trading_pnl_start = today.replace("-", "")
     else:
         start_date = (
             datetime.strptime(realized_through, "%Y-%m-%d").date() + timedelta(days=1)
