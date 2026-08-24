@@ -256,6 +256,29 @@ KB_SHARES = 59
 KB_INV = 9858900
 
 
+def purge_non_trading_dates(store):
+    """
+    휴장일 체크를 우회해서 실행됐거나 과거 버그로 인해 저장돼버린
+    주말/공휴일 날짜 데이터를 실행할 때마다 자동으로 제거한다.
+    """
+    def is_bad(date_str):
+        try:
+            d = datetime.strptime(date_str, "%Y-%m-%d").date()
+        except ValueError:
+            return False
+        return d.weekday() >= 5 or date_str in KRX_HOLIDAYS_2026
+
+    bad_dates = [d for d in store.get("dates", []) if is_bad(d)]
+    if not bad_dates:
+        return
+
+    print(f"[정리] 휴장일에 잘못 저장된 데이터 제거: {bad_dates}")
+    store["dates"] = [d for d in store.get("dates", []) if not is_bad(d)]
+    store["overall"] = [o for o in store.get("overall", []) if not is_bad(o["date"])]
+    for name in list(store.get("stocks", {}).keys()):
+        store["stocks"][name] = [e for e in store["stocks"][name] if not is_bad(e["date"])]
+
+
 def canon(name):
     return NAME_CANON.get(name, name)
 
@@ -271,12 +294,12 @@ def main():
 
     now_kst = datetime.now(KST)
     today_iso = now_kst.date().isoformat()
-    #if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
-    #    print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
-    #    return
-    #if today_iso in KRX_HOLIDAYS_2026:
-    #    print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
-    #    return
+    if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
+        print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
+        return
+    if today_iso in KRX_HOLIDAYS_2026:
+        print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
+        return
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
@@ -286,17 +309,42 @@ def main():
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         store = json.load(f)
 
-    # 실현손익 조회 기간: 우리가 갖고 있는 가장 이른 날짜부터 오늘까지
-    trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
+    purge_non_trading_dates(store)
+
+    # 실현손익 조회: 한 번도 안 받아왔으면 보유 시작일부터 전체를 한 번 훑고(백필),
+    # 이후로는 "마지막으로 확인 완료한 날짜" 다음 날부터 오늘까지만 확인한다.
+    # 오늘 걸 이미 확인했으면(하루 여러 번 실행돼도) 다시 호출하지 않는다.
+    already_backfilled = bool(store.get("realizedBackfilled"))
+    realized_through = store.get("realizedThroughDate")
+
+    do_fetch = True
+    if not already_backfilled:
+        trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
+    elif realized_through == today:
+        do_fetch = False
+        trading_pnl_start = None
+    else:
+        start_date = (
+            datetime.strptime(realized_through, "%Y-%m-%d").date() + timedelta(days=1)
+            if realized_through else now_kst.date()
+        )
+        trading_pnl_start = start_date.strftime("%Y%m%d")
     trading_pnl_end = today.replace("-", "")
-    try:
-        trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
-    except Exception as e:
-        print(f"경고: 종목별실현손익조회 전체 실패({e}) — 이번 실행에서는 realizedStocks를 건너뜁니다.", file=sys.stderr)
-        trading_output1 = []
-    print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
-    for it in trading_output1:
-        print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
+
+    trading_output1 = []
+    if do_fetch:
+        try:
+            trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
+            store["realizedBackfilled"] = True
+            store["realizedThroughDate"] = today
+        except Exception as e:
+            print(f"경고: 종목별실현손익조회 실패({e}) — 이번 실행에서는 realizedStocks 갱신을 건너뜁니다.", file=sys.stderr)
+            trading_output1 = []
+        print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end} (백필 {'완료 후 증분' if already_backfilled else '최초 수행'}), 받은 종목 수: {len(trading_output1)}")
+        for it in trading_output1:
+            print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
+    else:
+        print(f"[진단] 오늘({today})은 이미 실현손익을 확인해서 건너뜁니다.")
 
     # ---- 종목별 갱신 ----
     for item in output1:
@@ -352,40 +400,40 @@ def main():
         store["dates"].append(today)
         store["dates"].sort()
 
-    # ---- 실현손익(매도 완료 종목) 갱신 ----
+    # ---- 실현손익 갱신 (완전 매도 종목 + 일부만 매도한 보유 종목 모두 포함) ----
     held_names = {canon((it.get("iem_nm") or "").strip()) for it in output1 if it.get("iem_nm")}
     print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
-    realized_stocks = {}
+
+    realized_stocks = store.setdefault("realizedStocks", {})
     for item in trading_output1:
         raw_name = (item.get("iem_nm") or "").strip()
         if not raw_name or raw_name.startswith("<"):
             continue
         name = canon(raw_name)
-        if name in held_names:
-            print(f"[진단]   건너뜀(보유중): {name}")
-            continue  # 현재도 보유 중인 종목은 02번 섹션에서 이미 다룸
         pnl = round(num(item.get("pls_amt")))
         principal = round(num(item.get("sll_abk_amt")))
-        pct_raw = item.get("pft_rt")
-        pct = round(num(pct_raw), 2) if pct_raw not in (None, "") else (
-            round(pnl / principal * 100, 2) if principal else None
-        )
+        is_held = name in held_names
+
         prev = realized_stocks.get(name)
         if prev:
-            # 같은 종목이 여러 건(분할매도 등)으로 나뉘어 나올 수 있어 합산
-            prev["pnl"] += pnl
-            prev["principal"] += principal
+            # 이번에 새로 조회된 구간(증분)만큼 더해서 누적 (겹치는 기간을 다시 조회하지 않으므로 안전)
+            prev["pnl"] = prev.get("pnl", 0) + pnl
+            prev["principal"] = prev.get("principal", 0) + principal
             prev["pct"] = round(prev["pnl"] / prev["principal"] * 100, 2) if prev["principal"] else None
+            prev["held"] = is_held
         else:
-            realized_stocks[name] = {"pnl": pnl, "principal": principal, "pct": pct}
+            pct_raw = item.get("pft_rt")
+            pct = round(num(pct_raw), 2) if pct_raw not in (None, "") else (
+                round(pnl / principal * 100, 2) if principal else None
+            )
+            realized_stocks[name] = {"pnl": pnl, "principal": principal, "pct": pct, "held": is_held}
 
     if realized_stocks:
-        store["realizedStocks"] = realized_stocks
         store["realizedAsOf"] = today
         store["realizedFrom"] = store["dates"][0] if store.get("dates") else today
-        print(f"[진단] realizedStocks 저장: {list(realized_stocks.keys())}")
+        print(f"[진단] realizedStocks 현재 상태: {realized_stocks}")
     else:
-        print("[진단] realizedStocks 없음 — trading_output1이 비었거나 전부 보유중 종목으로 필터링됨")
+        print("[진단] realizedStocks 없음 — 아직 실현손익 데이터를 못 받아왔거나 매매 이력이 없음")
 
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
     nh_eval = round(num(output0.get("tot_eal_amt")))
