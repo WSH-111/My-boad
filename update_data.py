@@ -405,10 +405,18 @@ def main():
     print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
 
     realized_stocks = store.setdefault("realizedStocks", {})
+    # 예전 버전 버그로 저장됐을 수 있는 "매도한 적 없는데 0원으로 찍힌" 항목 정리
+    for name in list(realized_stocks.keys()):
+        if not realized_stocks[name].get("principal"):
+            del realized_stocks[name]
+
     for item in trading_output1:
         raw_name = (item.get("iem_nm") or "").strip()
         if not raw_name or raw_name.startswith("<"):
             continue
+        sell_qty = num(item.get("sll_qty"))
+        if sell_qty <= 0:
+            continue  # 매도 기록이 전혀 없으면(매수만 했으면) 실현손익 대상이 아니므로 건너뜀
         name = canon(raw_name)
         pnl = round(num(item.get("pls_amt")))
         principal = round(num(item.get("sll_abk_amt")))
