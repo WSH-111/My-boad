@@ -310,38 +310,31 @@ def main():
         store = json.load(f)
 
     purge_non_trading_dates(store)
+    store.pop("realizedBackfilled", None)  # 예전 증분방식 버그가 있던 필드 - 더 이상 사용 안 함
+    store.pop("realizedThroughDate", None)
+    if store.get("realizedSchemaVersion") != 2:
+        # 예전 "더하기" 방식 버그로 부풀려졌을 수 있는 값을 한 번 초기화하고 새로 계산
+        store.pop("realizedStocks", None)
+        store.pop("realizedAsOf", None)
+        store["realizedSchemaVersion"] = 2
+        print("[정리] realizedStocks 스키마 마이그레이션 — 이번 실행에서 강제로 다시 계산합니다.")
 
-    # 실현손익 조회: 한 번도 안 받아왔으면 보유 시작일부터 전체를 한 번 훑고(백필),
-    # 이후로는 "마지막으로 확인 완료한 날짜" 다음 날부터 오늘까지만 확인한다.
-    # 오늘 걸 이미 확인했으면(하루 여러 번 실행돼도) 다시 호출하지 않는다.
-    already_backfilled = bool(store.get("realizedBackfilled"))
-    realized_through = store.get("realizedThroughDate")
-
-    do_fetch = True
-    if not already_backfilled:
-        trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
-    elif realized_through == today:
-        # 오늘 이미 확인했더라도 당일 매도 건 반영을 위해 오늘 날짜 구간만 다시 조회
-        do_fetch = True
-        trading_pnl_start = today.replace("-", "")
-    else:
-        start_date = (
-            datetime.strptime(realized_through, "%Y-%m-%d").date() + timedelta(days=1)
-            if realized_through else now_kst.date()
-        )
-        trading_pnl_start = start_date.strftime("%Y%m%d")
-    trading_pnl_end = today.replace("-", "")
+    # 실현손익 조회: 매번(30분마다) 부르지 않고 "오늘 아직 확인 안 했으면" 딱 한 번만,
+    # 항상 전체 기간(보유 시작일~오늘)을 다시 물어서 그 결과로 완전히 덮어쓴다.
+    # (API가 이미 그 기간 전체의 최종 누적 손익을 한 번에 주기 때문에, 예전 값에
+    #  이어 더하면 중복 합산이 생긴다 — 그래서 "더하기"가 아니라 "덮어쓰기"로 처리한다.)
+    already_checked_today = store.get("realizedAsOf") == today
 
     trading_output1 = []
-    if do_fetch:
+    if not already_checked_today:
+        trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
+        trading_pnl_end = today.replace("-", "")
         try:
             trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
-            store["realizedBackfilled"] = True
-            store["realizedThroughDate"] = today
         except Exception as e:
             print(f"경고: 종목별실현손익조회 실패({e}) — 이번 실행에서는 realizedStocks 갱신을 건너뜁니다.", file=sys.stderr)
             trading_output1 = []
-        print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end} (백필 {'완료 후 증분' if already_backfilled else '최초 수행'}), 받은 종목 수: {len(trading_output1)}")
+        print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
         for it in trading_output1:
             print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
     else:
@@ -405,48 +398,47 @@ def main():
     held_names = {canon((it.get("iem_nm") or "").strip()) for it in output1 if it.get("iem_nm")}
     print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
 
-    realized_stocks = store.setdefault("realizedStocks", {})
-    # 예전 버전 버그로 저장됐을 수 있는 "매도한 적 없는데 0원으로 찍힌" 항목 정리
-    for name in list(realized_stocks.keys()):
-        if not realized_stocks[name].get("principal"):
-            del realized_stocks[name]
+    if not already_checked_today and trading_output1:
+        # 이번 조회 결과로 완전히 새로 계산 (기존 값에 더하지 않음 — 매번 전체 기간 재조회이므로
+        # API가 돌려준 값이 이미 그 종목의 "지금까지 전체" 실현손익 총합이다)
+        fresh_realized = {}
+        for item in trading_output1:
+            raw_name = (item.get("iem_nm") or "").strip()
+            if not raw_name or raw_name.startswith("<"):
+                continue
+            sell_qty = num(item.get("sll_qty"))
+            if sell_qty <= 0:
+                continue  # 매도 기록이 전혀 없으면(매수만 했으면) 대상이 아니므로 건너뜀
+            name = canon(raw_name)
+            pnl = round(num(item.get("pls_amt")))
+            principal = round(num(item.get("sll_abk_amt")))
+            is_held = name in held_names
 
-    for item in trading_output1:
-        raw_name = (item.get("iem_nm") or "").strip()
-        if not raw_name or raw_name.startswith("<"):
-            continue
-        sell_qty = num(item.get("sll_qty"))
-        if sell_qty <= 0:
-            continue  # 매도 기록이 전혀 없으면(매수만 했으면) 실현손익 대상이 아니므로 건너뜀
-        name = canon(raw_name)
-        pnl = round(num(item.get("pls_amt")))
-        principal = round(num(item.get("sll_abk_amt")))
-        is_held = name in held_names
+            prev = fresh_realized.get(name)
+            if prev:
+                # 조회 기간이 길어 여러 구간(청크)으로 나눠 온 경우, 같은 종목이 구간별로
+                # 여러 번 나올 수 있어 그 구간들끼리는 합산 (겹치지 않는 기간이라 안전)
+                prev["pnl"] += pnl
+                prev["principal"] += principal
+                prev["held"] = is_held
+            else:
+                fresh_realized[name] = {"pnl": pnl, "principal": principal, "held": is_held}
 
-        prev = realized_stocks.get(name)
-        if prev:
-            # 이번에 새로 조회된 구간(증분)만큼 더해서 누적 (겹치는 기간을 다시 조회하지 않으므로 안전)
-            prev["pnl"] = prev.get("pnl", 0) + pnl
-            prev["principal"] = prev.get("principal", 0) + principal
-            prev["pct"] = round(prev["pnl"] / prev["principal"] * 100, 2) if prev["principal"] else None
-            prev["held"] = is_held
-        else:
-            pct_raw = item.get("pft_rt")
-            pct = round(num(pct_raw), 2) if pct_raw not in (None, "") else (
-                round(pnl / principal * 100, 2) if principal else None
-            )
-            realized_stocks[name] = {"pnl": pnl, "principal": principal, "pct": pct, "held": is_held}
+        for v in fresh_realized.values():
+            v["pct"] = round(v["pnl"] / v["principal"] * 100, 2) if v["principal"] else None
 
-    if realized_stocks:
+        store["realizedStocks"] = fresh_realized
         store["realizedAsOf"] = today
         store["realizedFrom"] = store["dates"][0] if store.get("dates") else today
-        print(f"[진단] realizedStocks 현재 상태: {realized_stocks}")
+        print(f"[진단] realizedStocks 갱신됨: {fresh_realized}")
+    elif already_checked_today:
+        print("[진단] realizedStocks은 오늘 이미 최신 상태 (변경 없음)")
     else:
-        print("[진단] realizedStocks 없음 — 아직 실현손익 데이터를 못 받아왔거나 매매 이력이 없음")
+        print("[진단] realizedStocks 갱신 실패 또는 매매 이력 없음 (기존 값 유지)")
 
     # ---- 전체 요약 갱신 (NH 계좌 기준) ----
     nh_eval = round(num(output0.get("tot_eal_amt")))
-    nh_invested = round(num(output0.get("tot_byn_amt")))     
+    nh_invested = round(num(output0.get("tot_byn_amt")))
     nh_pnl = round(num(output0.get("tot_eal_pls")))
     nh_pct = output0.get("pft_rt")
     nh_pct = round(num(nh_pct), 2) if nh_pct not in (None, "") else (
