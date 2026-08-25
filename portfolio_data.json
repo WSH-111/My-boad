@@ -12894,7 +12894,7 @@
       }
     ]
   },
-  "lastUpdated": "2026-08-25 18:05",
+  "lastUpdated": "2026-08-25 18:23",
   "realizedFrom": "2026-01-02",
   "realizedSchemaVersion": 2,
   "realizedStocks": {
@@ -12953,10 +12953,10 @@
       "pct": 418.94
     },
     "TIGER 화장품": {
-      "pnl": 499405,
-      "principal": 4069965,
+      "pnl": 610455,
+      "principal": 4453995,
       "held": true,
-      "pct": 12.27
+      "pct": 13.71
     }
   },
   "realizedAsOf": "2026-08-25"
