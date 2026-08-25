@@ -2,10 +2,12 @@ name: portfolio-update
 
 on:
   schedule:
-    # 한국시간 평일 09:00 ~ 15:30 (UTC 기준 00:00 ~ 06:30) 10분 간격 실행   
-    - cron: "0,30 0-8 * * MON-FRI"
+    # 한국시간 평일 09:00 ~ 15:30 (UTC 기준 00:00 ~ 06:30) 30분 간격 실행
+    # GitHub Actions schedule은 UTC 기준이며, 정각(0분)에는 부하로 지연될 수 있어
+    # 15분/45분에 실행하도록 설정 (지연/건너뜀 방지)
+    - cron: "15,45 0-6 * * MON-FRI"
   workflow_dispatch: # 수동 실행 버튼 유지
-  
+
 
 permissions:
   contents: write
@@ -27,7 +29,14 @@ jobs:
           git config user.name portfolio-bot
           git config user.email actions@users.noreply.github.com
           git add portfolio_data.json
-          git diff --cached --quiet || git commit -m auto-update
+          # 데이터 변경이 없어도 keep-alive 커밋을 만들어 리포지토리 비활성화 방지
+          # (GitHub는 60일간 활동이 없으면 schedule 워크플로우를 자동 비활성화함)
+          if git diff --cached --quiet; then
+            echo "데이터 변경 없음 - keep-alive 커밋 생성"
+            echo "$(date -u +'%Y-%m-%d %H:%M UTC') keep-alive" >> .keepalive
+            git add .keepalive
+          fi
+          git diff --cached --quiet || git commit -m "auto-update $(date -u +'%Y-%m-%d %H:%M')"
           git push
 
           
