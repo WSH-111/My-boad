@@ -12,8 +12,8 @@ portfolio_data.json을 최신 값으로 갱신하는 스크립트.
   1. 접근토큰 발급 (POST /oauth2/token)
   2. 주식잔고조회 연속조회 반복 수행 (POST /krstock/inquiry/v1/balance)
   3. 종목별실현손익현황조회 (POST /krstock/inquiry/v1/tradingPnl) — 보유 시작일부터
-     오늘까지 기간을 지정해 실제 매도 체결 기반 실현손익을 조회. 현재 잔고에 없는
-     종목만 골라 "수익실현 종목" 데이터로 사용.
+     오늘까지 기간을 지정해 실제 매도 체결 기반 실현손익을 조회. 매번(실행할 때마다)
+     전체 기간을 다시 조회해서 덮어쓴다 — 장중에도 매도가 일어날 수 있어서다.
   4. 기존 portfolio_data.json을 읽어서 오늘 날짜 항목을 추가/갱신
      - NH 데이터는 API로 받은 실시간 값 사용
      - 미래에셋/KB(삼성전자)는 API로 조회가 안 되므로, NH가 알려준 삼성전자
@@ -319,26 +319,21 @@ def main():
         store["realizedSchemaVersion"] = 2
         print("[정리] realizedStocks 스키마 마이그레이션 — 이번 실행에서 강제로 다시 계산합니다.")
 
-    # 실현손익 조회: 매번(30분마다) 부르지 않고 "오늘 아직 확인 안 했으면" 딱 한 번만,
+    # 실현손익 조회: 잔고를 불러올 때마다(=이 스크립트가 실행될 때마다) 같이 갱신한다.
+    # 장중에 매도가 일어날 수 있으니 하루 한 번이 아니라 매번 확인.
     # 항상 전체 기간(보유 시작일~오늘)을 다시 물어서 그 결과로 완전히 덮어쓴다.
     # (API가 이미 그 기간 전체의 최종 누적 손익을 한 번에 주기 때문에, 예전 값에
     #  이어 더하면 중복 합산이 생긴다 — 그래서 "더하기"가 아니라 "덮어쓰기"로 처리한다.)
-    already_checked_today = store.get("realizedAsOf") == today
-
-    trading_output1 = []
-    if not already_checked_today:
-        trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
-        trading_pnl_end = today.replace("-", "")
-        try:
-            trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
-        except Exception as e:
-            print(f"경고: 종목별실현손익조회 실패({e}) — 이번 실행에서는 realizedStocks 갱신을 건너뜁니다.", file=sys.stderr)
-            trading_output1 = []
-        print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
-        for it in trading_output1:
-            print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
-    else:
-        print(f"[진단] 오늘({today})은 이미 실현손익을 확인해서 건너뜁니다.")
+    trading_pnl_start = (store["dates"][0] if store.get("dates") else today).replace("-", "")
+    trading_pnl_end = today.replace("-", "")
+    try:
+        trading_output1 = get_trading_pnl(token, account_no, trading_pnl_start, trading_pnl_end)
+    except Exception as e:
+        print(f"경고: 종목별실현손익조회 실패({e}) — 이번 실행에서는 realizedStocks 갱신을 건너뜁니다.", file=sys.stderr)
+        trading_output1 = []
+    print(f"[진단] tradingPnl 조회기간 {trading_pnl_start}~{trading_pnl_end}, 받은 종목 수: {len(trading_output1)}")
+    for it in trading_output1:
+        print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
 
     # ---- 종목별 갱신 ----
     for item in output1:
@@ -398,7 +393,7 @@ def main():
     held_names = {canon((it.get("iem_nm") or "").strip()) for it in output1 if it.get("iem_nm")}
     print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
 
-    if not already_checked_today and trading_output1:
+    if trading_output1:
         # 이번 조회 결과로 완전히 새로 계산 (기존 값에 더하지 않음 — 매번 전체 기간 재조회이므로
         # API가 돌려준 값이 이미 그 종목의 "지금까지 전체" 실현손익 총합이다)
         fresh_realized = {}
@@ -431,8 +426,6 @@ def main():
         store["realizedAsOf"] = today
         store["realizedFrom"] = store["dates"][0] if store.get("dates") else today
         print(f"[진단] realizedStocks 갱신됨: {fresh_realized}")
-    elif already_checked_today:
-        print("[진단] realizedStocks은 오늘 이미 최신 상태 (변경 없음)")
     else:
         print("[진단] realizedStocks 갱신 실패 또는 매매 이력 없음 (기존 값 유지)")
 
