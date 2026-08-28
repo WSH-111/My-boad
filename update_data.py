@@ -340,9 +340,7 @@ def main():
         name = canon(item.get("iem_nm", "").strip())
         if not name:
             continue
-        qty = num(item.get("itg_bnc_qty"))
-        phs_pr = num(item.get("phs_pr"))
-        invested = round(qty * phs_pr)
+        invested = round(num(item.get("byn_amt")))  # 매수금액 API 필드 직접 사용 (기존: 수량×매입가격 계산값)
         eval_amt = round(num(item.get("eal_amt")))
         pnl = round(num(item.get("eal_pls_amt")))
         pct = item.get("pft_rt")
