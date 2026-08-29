@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Clean Dashboard Preview (main index without ads) - test data</title>
+  <style>body{font-family:Arial,Helvetica,sans-serif;padding:16px;background:#fff;color:#111}#loading{padding:20px;border:1px solid #eee;border-radius:6px;max-width:900px;margin:20px auto;text-align:center}</style>
+</head>
+<body>
+  <div id="loading">Preparing clean preview... If it stays here, check browser console for errors.</div>
+  <script>
+  (async function(){
+    try{
+      // fetch main index.html
+      const res = await fetch('https://raw.githubusercontent.com/dicahong1/Stock-status/main/index.html');
+      if(!res.ok) throw new Error('failed to fetch main index.html: ' + res.status);
+      let html = await res.text();
+
+      // remove EthicalAds / ad-related scripts to avoid tracking-prevention errors
+      html = html.replace(/<script[^>]*ethicalads[^>]*>[\s\S]*?<\/script>/gi, '');
+      html = html.replace(/<script[^>]*src=["'][^"']*ethicalads[^"']*["'][^>]*>\s*<\/script>/gi, '');
+      html = html.replace(/<iframe[^>]*ethicalads[^>]*>[\s\S]*?<\/iframe>/gi, '');
+      html = html.replace(/<div[^>]*id="githack-other-ad"[^>]*>[\s\S]*?<\/div>/gi, '');
+
+      // inject override: redirect portfolio_data.json requests to test raw JSON
+      const override = `\n<script>/* preview override: redirect portfolio_data.json to test branch raw URL */(function(){
+        try{
+          const RAW = 'https://raw.githubusercontent.com/dicahong1/Stock-status/test/portfolio_data.json';
+          const origFetch = window.fetch && window.fetch.bind(window);
+          if(origFetch){
+            window.fetch = function(input, init){
+              try{
+                const url = (typeof input === 'string') ? input : (input && input.url);
+                if(url && url.indexOf('portfolio_data.json') !== -1){
+                  return origFetch(RAW, {cache:'no-store'});
+                }
+              }catch(e){}
+              return origFetch(input, init);
+            };
+          }
+          // XHR fallback
+          const X = window.XMLHttpRequest;
+          if(X){
+            function NewXHR(){
+              const x = new X();
+              const _open = x.open;
+              x.open = function(method, url){
+                try{ if(url && url.indexOf('portfolio_data.json') !== -1){ url = RAW; } }catch(e){}
+                return _open.apply(this, arguments);
+              };
+              return x;
+            }
+            NewXHR.prototype = X.prototype;
+            window.XMLHttpRequest = NewXHR;
+          }
+        }catch(e){console.error('preview override error', e)}
+      })();</script>\n`;
+
+      // inject override just after <head> tag
+      html = html.replace(/<head[^>]*>/i, match => match + override);
+
+      document.open();
+      document.write(html);
+      document.close();
+    }catch(err){
+      document.getElementById('loading').textContent = 'Error preparing preview: ' + err.message;
+      console.error(err);
+    }
+  })();
+  </script>
+</body>
+</html>
