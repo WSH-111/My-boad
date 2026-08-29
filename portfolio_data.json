@@ -762,13 +762,13 @@
     {
       "date": "2026-05-06",
       "eval": 142074920,
-      "invested": 89685118,
-      "pct": 80.1,
-      "pnl": 71836767,
+      "invested": 78667118,
+      "pct": 80.6,
+      "pnl": 	63407802,
       "trueEval": 237036920,
-      "trueInvested": 119466118,
-      "truePnl": 137017767,
-      "truePct": 114.69
+      "trueInvested": 108448118,
+      "truePnl": 128588802,
+      "truePct": 118.57
     },
     {
       "date": "2026-05-07",
