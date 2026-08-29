@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio JSON Preview (test branch)</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:24px;background:#f7f7f7;color:#111}
+    .card{background:#fff;border-radius:8px;padding:16px;max-width:720px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+    h1{margin:0 0 12px;font-size:18px}
+    pre{background:#f2f2f2;padding:12px;border-radius:6px;overflow:auto}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .item{flex:1 1 200px}
+    .label{font-size:12px;color:#666}
+    .value{font-size:16px;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Portfolio JSON Preview (test branch)</h1>
+    <div id="status">Loading...</div>
+    <hr />
+    <div id="content"></div>
+    <hr />
+    <div style="font-size:12px;color:#666">This preview fetches the portfolio_data.json from the <code>test</code> branch raw URL.</div>
+  </div>
+
+  <script>
+    (async function(){
+      const RAW = 'https://raw.githubusercontent.com/dicahong1/Stock-status/test/portfolio_data.json';
+      const statusEl = document.getElementById('status');
+      const contentEl = document.getElementById('content');
+      try{
+        const res = await fetch(RAW, {cache: 'no-store'});
+        if(!res.ok) throw new Error('fetch failed: ' + res.status + ' ' + res.statusText);
+        const data = await res.json();
+        statusEl.textContent = 'Loaded portfolio_data.json from test branch';
+
+        // show last overall entry summary
+        const overall = data.overall || [];
+        const last = overall.length ? overall[overall.length-1] : null;
+        const lastUpdated = data.lastUpdated || '';
+
+        if(!last){
+          contentEl.innerHTML = '<div>No overall data found in portfolio_data.json</div><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+          return;
+        }
+
+        const fmt = n => n?.toLocaleString?.() ?? n;
+        const html = `
+          <div class="row">
+            <div class="item"><div class="label">날짜</div><div class="value">${last.date}</div></div>
+            <div class="item"><div class="label">평가금액</div><div class="value">${fmt(last.eval)}원</div></div>
+            <div class="item"><div class="label">매수금액</div><div class="value">${fmt(last.invested)}원</div></div>
+            <div class="item"><div class="label">수익금액 (pnl)</div><div class="value">${fmt(last.pnl)}원</div></div>
+            <div class="item"><div class="label">수익률 (pct)</div><div class="value">${last.pct}%</div></div>
+          </div>
+          <hr />
+          <div class="label">lastUpdated</div>
+          <div class="value">${lastUpdated}</div>
+          <hr />
+          <details><summary>전체 JSON (접기/펼치기)</summary><pre>${JSON.stringify(data, null, 2)}</pre></details>
+        `;
+        contentEl.innerHTML = html;
+      }catch(err){
+        statusEl.textContent = 'Error loading JSON';
+        contentEl.innerHTML = '<pre style="color:#c0392b">' + err.message + '</pre>';
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>
