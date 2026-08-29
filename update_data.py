@@ -19,6 +19,10 @@ portfolio_data.json을 최신 값으로 갱신하는 스크립트.
      - 미래에셋/KB(삼성전자)는 API로 조회가 안 되므로, NH가 알려준 삼성전자
        "현재가"에 고정 보유수량(298주/59주)을 곱해 매번 시가로 재계산
   5. portfolio_data.json 덮어쓰기
+
+변경:
+  - 휴장일(주말/KRX_HOLIDAYS_2026)에 실행되면 API를 호출하지 않고
+    portfolio_data.json만 불러와 purge 및 lastUpdated를 갱신하여 대시보드를 업데이트합니다.
 """
 
 import json
@@ -284,6 +288,27 @@ def canon(name):
 
 
 def main():
+    now_kst = datetime.now(KST)
+    today_iso = now_kst.date().isoformat()
+
+    # 휴장일(주말 또는 KRX 공휴일)인 경우: API 호출하지 않고 JSON만 읽어 대시보드 갱신
+    if now_kst.weekday() >= 5 or today_iso in KRX_HOLIDAYS_2026:
+        try:
+            with open(DATA_FILE, "r", encoding="utf-8") as f:
+                store = json.load(f)
+        except FileNotFoundError:
+            print(f"{DATA_FILE}를 찾을 수 없어 대시보드 갱신을 수행할 수 없습니다.", file=sys.stderr)
+            return
+
+        purge_non_trading_dates(store)
+        store["lastUpdated"] = now_kst.strftime("%Y-%m-%d %H:%M")
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(store, f, ensure_ascii=False, indent=2)
+
+        print(f"{today_iso}은(는) 주말/휴장일이므로 API 호출 없이 portfolio_data.json을 불러와 대시보드를 업데이트했습니다.")
+        return
+
+    # 평일(영업일): 기존 로직대로 환경변수 확인 후 API 호출 수행
     appkey = os.environ.get("NH_APPKEY")
     appsecretkey = os.environ.get("NH_APPSECRETKEY")
     account_no = os.environ.get("NH_ACCOUNT_NO")
@@ -291,15 +316,6 @@ def main():
     if not (appkey and appsecretkey and account_no):
         print("환경변수 NH_APPKEY / NH_APPSECRETKEY / NH_ACCOUNT_NO 가 필요합니다.", file=sys.stderr)
         sys.exit(1)
-
-    now_kst = datetime.now(KST)
-    today_iso = now_kst.date().isoformat()
-    if now_kst.weekday() >= 5:  # 5=토요일, 6=일요일
-        print(f"{today_iso}은(는) 주말이라 KRX 휴장일 — 갱신을 건너뜁니다.")
-        return
-    if today_iso in KRX_HOLIDAYS_2026:
-        print(f"{today_iso}은(는) KRX 휴장일 — 갱신을 건너뜁니다.")
-        return
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
