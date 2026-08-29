@@ -24,7 +24,7 @@ jobs:
           NH_APPKEY: ${{ secrets.NH_APPKEY }}
           NH_APPSECRETKEY: ${{ secrets.NH_APPSECRETKEY }}
           NH_ACCOUNT_NO: ${{ secrets.NH_ACCOUNT_NO }}
-        run: python update_data.py
+        run: python update_simple.py
       - run: |
           git config user.name portfolio-bot
           git config user.email actions@users.noreply.github.com
