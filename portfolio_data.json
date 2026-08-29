@@ -23205,9 +23205,9 @@
       },
       {
         "date": "2026-05-06",
-        "pct": 61.13,
-        "invested": 11018000,
-        "pnl": 6736000
+        "pct": null,
+        "invested": null,
+        "pnl": null
       },
       {
         "date": "2026-05-07",
