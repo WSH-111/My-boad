@@ -1,4 +1,4 @@
-name: portfolio-update
+name: update_simple
 
 on:
   schedule:
