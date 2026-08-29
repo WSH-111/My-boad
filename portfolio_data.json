@@ -764,7 +764,7 @@
       "eval": 142074920,
       "invested": 78667118,
       "pct": 80.6,
-      "pnl": 	63407802,
+      "pnl": 63407802,
       "trueEval": 237036920,
       "trueInvested": 108448118,
       "truePnl": 128588802,
@@ -26854,7 +26854,7 @@
       }
     ]
   },
-  "lastUpdated": "2026-08-29 16:21",
+  "lastUpdated": "2026-08-29 16:53",
   "realizedFrom": "2026-01-02",
   "realizedSchemaVersion": 2,
   "realizedStocks": {
