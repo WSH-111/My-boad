@@ -552,16 +552,12 @@ def main():
         store["realizedAsOf"] = today
         store["realizedFrom"] = store["dates"][0] if store.get("dates") else today
         print(f"[진단] realizedStocks 갱신됨: {fresh_realized}")
-
-        # "수익실현 종목 = 현재 잔고에 없는 종목"이라는 화면 설계와 맞추기 위해,
-        # 완전 매도(held=False)로 확정된 종목은 store["stocks"]에서 완전히 제거한다.
-        # 이렇게 안 하면 "종목별 현재 성과" 화면이 stocks의 최신 entry를 그대로 보여주는
-        # 구조라, 매도 완료 종목이 (특히 결제지연 중 생긴 0원짜리 유령 entry로) 계속
-        # "현재 보유중"인 것처럼 표시된다.
-        for name, r in fresh_realized.items():
-            if r["held"] is False and name in store["stocks"]:
-                del store["stocks"][name]
-                print(f"[진단] '{name}' 완전 매도 확정 → stocks(현재 보유)에서 제거")
+        # 주의: store["stocks"]에서 종목을 삭제하면 안 됨 — 프론트엔드가
+        # "종목의 stocks[] 마지막 entry 날짜가 오늘이 아니면 매도완료(수익실현)"로
+        # 자동 분류하는 구조라(Object.keys(stocks) 기준으로 목록을 만듦), 여기서
+        # 지워버리면 "종목별 현재 성과"·"수익실현 종목" 화면 둘 다에서 사라진다.
+        # 앞의 "오늘 날짜 0원 entry 제거" 로직만으로 충분함 (마지막 entry가 오늘이
+        # 아니게 되어 프론트가 알아서 수익실현으로 분류함).
     else:
         print("[진단] realizedStocks 갱신 실패 또는 매매 이력 없음 (기존 값 유지)")
 
