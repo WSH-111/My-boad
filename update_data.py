@@ -448,6 +448,19 @@ def main():
         agg["now_pr"] = num(item.get("now_pr"))  # 종목당 시세는 lot마다 동일하므로 마지막 값 사용
         agg["code"] = item.get("iem_cd") or agg["code"]
 
+    # 이번 필터(eal_amt<=0)에 걸려 aggregated에서 제외된 종목들 중, 이전 실행(필터 적용 전)이
+    # 이미 오늘 날짜로 0원짜리 잘못된 entry를 저장해둔 경우가 있을 수 있다. continue로
+    # 건너뛰기만 하면 그 entry가 안 지워지고 남아있으므로, 오늘 날짜 entry면 지워서
+    # 마지막 정상 데이터(예: 8/27)로 되돌린다.
+    for item in output1:
+        name = canon(item.get("iem_nm", "").strip())
+        if not name or num(item.get("eal_amt")) > 0:
+            continue
+        series = store["stocks"].get(name)
+        if series and series[-1]["date"] == today:
+            print(f"[진단] {name}: 오늘({today}) 저장된 잘못된 0원 기록 제거, 이전 값으로 복원")
+            series.pop()
+
     # ---- 종목별 갱신 ----
     for name, agg in aggregated.items():
         invested = invested_by_code.get(agg["code"], agg["invested_fallback"])
@@ -539,6 +552,16 @@ def main():
         store["realizedAsOf"] = today
         store["realizedFrom"] = store["dates"][0] if store.get("dates") else today
         print(f"[진단] realizedStocks 갱신됨: {fresh_realized}")
+
+        # "수익실현 종목 = 현재 잔고에 없는 종목"이라는 화면 설계와 맞추기 위해,
+        # 완전 매도(held=False)로 확정된 종목은 store["stocks"]에서 완전히 제거한다.
+        # 이렇게 안 하면 "종목별 현재 성과" 화면이 stocks의 최신 entry를 그대로 보여주는
+        # 구조라, 매도 완료 종목이 (특히 결제지연 중 생긴 0원짜리 유령 entry로) 계속
+        # "현재 보유중"인 것처럼 표시된다.
+        for name, r in fresh_realized.items():
+            if r["held"] is False and name in store["stocks"]:
+                del store["stocks"][name]
+                print(f"[진단] '{name}' 완전 매도 확정 → stocks(현재 보유)에서 제거")
     else:
         print("[진단] realizedStocks 갱신 실패 또는 매매 이력 없음 (기존 값 유지)")
 
