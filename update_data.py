@@ -558,6 +558,24 @@ def main():
         # 지워버리면 "종목별 현재 성과"·"수익실현 종목" 화면 둘 다에서 사라진다.
         # 앞의 "오늘 날짜 0원 entry 제거" 로직만으로 충분함 (마지막 entry가 오늘이
         # 아니게 되어 프론트가 알아서 수익실현으로 분류함).
+
+        # 자가복구: 예전 버그로 store["stocks"]에서 아예 지워졌던 완전매도 종목을
+        # realizedStocks 데이터로 최소 entry 하나 복원한다. (날짜는 오늘만 아니면
+        # 되므로 dates의 직전 날짜를 사용 — 프론트는 "마지막 entry 날짜 ≠ 오늘"이면
+        # 자동으로 수익실현 목록에 넣어준다.)
+        placeholder_date = store["dates"][-2] if len(store.get("dates", [])) >= 2 else store["dates"][0]
+        for name, r in fresh_realized.items():
+            if r["held"] is False and name not in store["stocks"]:
+                principal = r["principal"]
+                pnl = r["pnl"]
+                store["stocks"][name] = [{
+                    "date": placeholder_date,
+                    "invested": principal,
+                    "eval": principal + pnl,
+                    "pnl": pnl,
+                    "pct": r["pct"],
+                }]
+                print(f"[진단] '{name}' stocks에서 누락되어 있었음 → realizedStocks 데이터로 복구")
     else:
         print("[진단] realizedStocks 갱신 실패 또는 매매 이력 없음 (기존 값 유지)")
 
