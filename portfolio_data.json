@@ -22132,7 +22132,7 @@
       }
     ]
   },
-  "lastUpdated": "2026-08-31 17:49",
+  "lastUpdated": "2026-08-31 18:19",
   "realizedFrom": "2026-01-02",
   "realizedSchemaVersion": 2,
   "realizedStocks": {
@@ -22197,5 +22197,22 @@
       "pct": 15.86
     }
   },
-  "realizedAsOf": "2026-08-31"
+  "realizedAsOf": "2026-08-31",
+  "realizedInclude": [
+    "KODEX 방산TOP10",
+    "LG에너지솔루션",
+    "TIGER 화장품",
+    "국순당",
+    "기가레인",
+    "덕양에너젠",
+    "엔에이치스팩33호",
+    "폴레드",
+    "피스피스스튜디오"
+  ],
+  "realizedTotal": {
+    "pnl": 1955171,
+    "principal": 13652245,
+    "pct": 14.32,
+    "count": 9
+  }
 }
