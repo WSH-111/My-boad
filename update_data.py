@@ -375,11 +375,17 @@ def main():
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
+    print(f"[진단] balance API 원본 row 수: {len(output1)}")
+    for it in output1:
+        print(f"[진단]   balance row: iem_nm={it.get('iem_nm')!r} iem_cd={it.get('iem_cd')!r} "
+              f"tp_cd_nm={it.get('tp_cd_nm')!r} itg_bnc_qty={it.get('itg_bnc_qty')!r} "
+              f"phs_pr={it.get('phs_pr')!r} eal_amt={it.get('eal_amt')!r} eal_pls_amt={it.get('eal_pls_amt')!r}")
     try:
         invested_by_code = get_all_asset_status(token, account_no)
     except Exception as e:
         print(f"경고: 자산현황조회(매입금액) 실패({e}) — 이번 실행은 phs_pr×itg_bnc_qty 계산값으로 대체합니다.", file=sys.stderr)
         invested_by_code = {}
+    print(f"[진단] assetStatus invested_by_code: {invested_by_code}")
 
     today = today_iso
 
@@ -423,7 +429,11 @@ def main():
             continue
         # 매도 직후 결제(T+2) 전까지 수량 0짜리 잔여 row가 잔고조회에 남을 수 있음.
         # 실제 보유가 아니므로 오늘자 보유종목 데이터에 반영하지 않는다.
-        if num(item.get("itg_bnc_qty")) <= 0:
+        # 매도 직후 결제(T+2) 전까지 잔고조회에 수량(itg_bnc_qty)은 남아있는데
+        # 평가금액(eal_amt)은 이미 0으로 내려오는 잔여 row가 며칠씩 지속될 수 있음
+        # (실측: TIGER 화장품 8/28~8/31 계속 수량>0, 평가금액=0). 수량보다 평가금액이
+        # 더 신뢰할 수 있는 "진짜 보유중" 신호이므로 이걸로 판단한다.
+        if num(item.get("eal_amt")) <= 0:
             continue
         # phs_pr×itg_bnc_qty는 반올림/소수점 오차가 생길 수 있어, assetStatus API의
         # byn_amt(매입금액)를 우선 사용하고, 그 값을 못 받아온 경우에만 이 계산값으로 대체한다.
@@ -486,13 +496,13 @@ def main():
         store["dates"].sort()
 
     # ---- 실현손익 갱신 (완전 매도 종목 + 일부만 매도한 보유 종목 모두 포함) ----
-    # 매도 직후에도 결제(T+2) 전까지 잔고조회에 수량 0짜리 잔여 row가 남을 수 있어,
-    # 이름만으로 판단하면 완전 매도한 종목도 계속 "보유중"으로 잘못 표시됨.
-    # 통합잔고수량(itg_bnc_qty)이 실제로 0보다 클 때만 보유중으로 인정한다.
+    # 매도 직후에도 결제(T+2) 전까지 잔고조회에 수량은 남아있지만 평가금액(eal_amt)은
+    # 이미 0으로 내려오는 잔여 row가 며칠씩 남을 수 있어(실측 확인됨), 수량이 아니라
+    # 평가금액이 0보다 클 때만 보유중으로 인정한다.
     held_names = {
         canon((it.get("iem_nm") or "").strip())
         for it in output1
-        if it.get("iem_nm") and num(it.get("itg_bnc_qty")) > 0
+        if it.get("iem_nm") and num(it.get("eal_amt")) > 0
     }
     print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
 
