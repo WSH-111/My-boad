@@ -518,6 +518,7 @@ def main():
         if it.get("iem_nm") and num(it.get("eal_amt")) > 0
     }
     print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
+    prev_held_names = set(store.get("prevHeldNames") or [])
 
     if trading_output1:
         # 이번 조회 결과로 완전히 새로 계산 (기존 값에 더하지 않음 — 매번 전체 기간 재조회이므로
@@ -560,17 +561,24 @@ def main():
         # 아니게 되어 프론트가 알아서 수익실현으로 분류함).
 
         # ---- "수익실현 종목" 노출 목록 관리 ----
-        # 처음엔 사용자가 지정한 5개만 노출하고, 이후 이 자동화가 실제로 보유를
-        # 추적하던 중(=store["stocks"]에 정상 기록이 있던) 종목이 새로 완전매도되면
-        # 자동으로 이 목록에 추가한다. (자동화 시작 전에 이미 매도됐던 덕양에너젠 등은
-        # store["stocks"]에 기록 자체가 없어서 이 조건에 걸리지 않으므로 계속 제외됨)
+        # 처음엔 사용자가 지정한 5개만 노출하고, 이후 직전 실행에선 보유중이었다가
+        # 이번에 완전매도로 바뀐 종목만 "신규"로 판단해 자동으로 이 목록에 추가한다.
         DEFAULT_REALIZED_INCLUDE = ["국순당", "KODEX 방산TOP10", "기가레인", "LG에너지솔루션", "TIGER 화장품"]
-        include_set = set(store.get("realizedInclude") or DEFAULT_REALIZED_INCLUDE)
+
+        if not store.get("realizedIncludeResetDone"):
+            # 예전 버전 로직 버그로 관계없는 종목들이 잘못 섞여 들어간 적이 있어,
+            # 한 번만 지정된 5개로 강제 초기화한다 (이후엔 절대 초기화하지 않음 —
+            # 그래야 이후 신규로 추가된 종목이 다음 실행에서 안 지워짐).
+            include_set = set(DEFAULT_REALIZED_INCLUDE)
+            store["realizedIncludeResetDone"] = True
+            print(f"[진단] realizedInclude 1회성 초기화 수행 → {sorted(include_set)}")
+        else:
+            include_set = set(store.get("realizedInclude") or DEFAULT_REALIZED_INCLUDE)
 
         for name, r in fresh_realized.items():
-            if r["held"] is False and name in store["stocks"] and name not in include_set:
+            if r["held"] is False and name in prev_held_names and name not in include_set:
                 include_set.add(name)
-                print(f"[진단] '{name}' 신규 완전매도 감지 → 수익실현 종목 목록에 자동 추가")
+                print(f"[진단] '{name}' 신규 완전매도 감지(직전 실행엔 보유중이었음) → 수익실현 종목 목록에 자동 추가")
 
         store["realizedInclude"] = sorted(include_set)
 
@@ -638,6 +646,7 @@ def main():
         overall.append(overall_entry)
 
     store["lastUpdated"] = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
+    store["prevHeldNames"] = sorted(held_names)
 
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(store, f, ensure_ascii=False, indent=2)
