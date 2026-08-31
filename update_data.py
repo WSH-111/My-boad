@@ -130,6 +130,62 @@ def get_all_balances(token, account_no):
     return final_output0, all_output1
 
 
+def get_all_asset_status(token, account_no):
+    """
+    /krstock/inquiry/v1/assetStatus(자산현황조회) 호출.
+    이 API의 Output_1에만 종목별 byn_amt(매입금액) 필드가 존재함
+    (balance API의 Output_1에는 byn_amt가 없어 phs_pr×itg_bnc_qty로 계산해야 하는데,
+    반올림/소수점 오차가 생기므로 매입금액은 이 API 값을 그대로 쓴다).
+    iem_cd(종목코드) 기준으로 같은 종목의 여러 잔고유형(현금/유통융자 등) byn_amt를 합산해
+    {iem_cd: 매입금액} 딕셔너리로 반환.
+    """
+    cts_flag = "N"
+    cts = ""
+    invested_by_code = {}
+
+    while True:
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "cts_flag": cts_flag,
+            "cts": cts,
+        }
+        json_body = {
+            "Input_0": {
+                "act_no": account_no,
+                "eal_aly_cd": "2",       # 2: 시가평가 (balance의 bnc_bse_cd="1"과 맞춤)
+                "aet_bse": "2",          # 2: 총자산
+                "qut_dit_cd": "KRX",     # balance 호출과 동일한 시세구분
+            }
+        }
+
+        result, resp_headers = http_post(
+            f"{DOMAIN}/krstock/inquiry/v1/assetStatus",
+            headers=headers,
+            json_body=json_body,
+        )
+
+        rsp_cd = result.get("rsp_cd")
+        if rsp_cd not in (None, "00166", "00218"):
+            print(f"경고: 자산현황조회 응답코드 {rsp_cd} - {result.get('rsp_msg')}", file=sys.stderr)
+
+        for item in result.get("Output_1", []):
+            code = item.get("iem_cd")
+            if not code:
+                continue
+            invested_by_code[code] = invested_by_code.get(code, 0) + round(num(item.get("byn_amt")))
+
+        next_cts_flag = resp_headers.get("cts_flag") or result.get("cts_flag", "N")
+        next_cts = resp_headers.get("cts") or result.get("cts", "")
+
+        if next_cts_flag == "Y" and next_cts:
+            cts_flag = "Y"
+            cts = next_cts
+        else:
+            break
+
+    return invested_by_code
+
+
 def get_trading_pnl_one_range(token, account_no, start_date, end_date):
     """한 구간(최대 ~3개월 권장)에 대해 종목별실현손익을 조회. cts로 페이지네이션."""
     cts_flag = "N"
@@ -319,6 +375,11 @@ def main():
 
     token = get_access_token(appkey, appsecretkey)
     output0, output1 = get_all_balances(token, account_no)
+    try:
+        invested_by_code = get_all_asset_status(token, account_no)
+    except Exception as e:
+        print(f"경고: 자산현황조회(매입금액) 실패({e}) — 이번 실행은 phs_pr×itg_bnc_qty 계산값으로 대체합니다.", file=sys.stderr)
+        invested_by_code = {}
 
     today = today_iso
 
@@ -351,24 +412,41 @@ def main():
     for it in trading_output1:
         print(f"[진단]   {it.get('iem_nm')!r} pls_amt={it.get('pls_amt')} sll_abk_amt={it.get('sll_abk_amt')} pft_rt={it.get('pft_rt')}")
 
-    # ---- 종목별 갱신 ----
+    # ---- 종목명 기준으로 여러 잔고유형(현금/유통융자 등) 줄을 먼저 합산 ----
+    # balance API는 한 종목이 매수일자/잔고유형별로 여러 줄(Output_1 element)로
+    # 나뉘어 올 수 있음(예: NH투자증권 현금 1건 + 유통융자 3건). 종목명별로
+    # invested/eval/pnl을 다 더해야 함 — 마지막 줄만 남기면 나머지 lot이 사라짐.
+    aggregated = {}
     for item in output1:
         name = canon(item.get("iem_nm", "").strip())
         if not name:
             continue
-        invested = round(num(item.get("byn_amt")))  # 매수금액 API 필드 직접 사용 (기존: 수량×매입가격 계산값)
-        eval_amt = round(num(item.get("eal_amt")))
-        pnl = round(num(item.get("eal_pls_amt")))
-        pct = item.get("pft_rt")
-        pct = round(num(pct), 2) if pct not in (None, "") else (
-            round(pnl / invested * 100, 2) if invested else None
-        )
+        # phs_pr×itg_bnc_qty는 반올림/소수점 오차가 생길 수 있어, assetStatus API의
+        # byn_amt(매입금액)를 우선 사용하고, 그 값을 못 받아온 경우에만 이 계산값으로 대체한다.
+        lot_invested_fallback = round(num(item.get("phs_pr")) * num(item.get("itg_bnc_qty")))
+        lot_eval = round(num(item.get("eal_amt")))
+        lot_pnl = round(num(item.get("eal_pls_amt")))
+
+        agg = aggregated.setdefault(name, {"invested_fallback": 0, "eval": 0, "pnl": 0, "now_pr": None, "code": None})
+        agg["invested_fallback"] += lot_invested_fallback
+        agg["eval"] += lot_eval
+        agg["pnl"] += lot_pnl
+        agg["now_pr"] = num(item.get("now_pr"))  # 종목당 시세는 lot마다 동일하므로 마지막 값 사용
+        agg["code"] = item.get("iem_cd") or agg["code"]
+
+    # ---- 종목별 갱신 ----
+    for name, agg in aggregated.items():
+        invested = invested_by_code.get(agg["code"], agg["invested_fallback"])
+        eval_amt = agg["eval"]
+        pnl = agg["pnl"]
+        # 합산된 값 기준으로 수익율 재계산 (개별 lot의 pft_rt는 합산 후엔 의미가 없음)
+        pct = round(pnl / invested * 100, 2) if invested else None
 
         series = store["stocks"].setdefault(name, [])
         entry = {"date": today, "invested": invested, "eval": eval_amt, "pnl": pnl, "pct": pct}
 
         if name == "삼성전자":
-            now_pr = num(item.get("now_pr"))
+            now_pr = agg["now_pr"]
             mirae_eval = round(MIRAE_SHARES * now_pr)
             kb_eval = round(KB_SHARES * now_pr)
             mirae_pnl = mirae_eval - MIRAE_INV
