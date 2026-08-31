@@ -421,6 +421,10 @@ def main():
         name = canon(item.get("iem_nm", "").strip())
         if not name:
             continue
+        # 매도 직후 결제(T+2) 전까지 수량 0짜리 잔여 row가 잔고조회에 남을 수 있음.
+        # 실제 보유가 아니므로 오늘자 보유종목 데이터에 반영하지 않는다.
+        if num(item.get("itg_bnc_qty")) <= 0:
+            continue
         # phs_pr×itg_bnc_qty는 반올림/소수점 오차가 생길 수 있어, assetStatus API의
         # byn_amt(매입금액)를 우선 사용하고, 그 값을 못 받아온 경우에만 이 계산값으로 대체한다.
         lot_invested_fallback = round(num(item.get("phs_pr")) * num(item.get("itg_bnc_qty")))
@@ -482,7 +486,14 @@ def main():
         store["dates"].sort()
 
     # ---- 실현손익 갱신 (완전 매도 종목 + 일부만 매도한 보유 종목 모두 포함) ----
-    held_names = {canon((it.get("iem_nm") or "").strip()) for it in output1 if it.get("iem_nm")}
+    # 매도 직후에도 결제(T+2) 전까지 잔고조회에 수량 0짜리 잔여 row가 남을 수 있어,
+    # 이름만으로 판단하면 완전 매도한 종목도 계속 "보유중"으로 잘못 표시됨.
+    # 통합잔고수량(itg_bnc_qty)이 실제로 0보다 클 때만 보유중으로 인정한다.
+    held_names = {
+        canon((it.get("iem_nm") or "").strip())
+        for it in output1
+        if it.get("iem_nm") and num(it.get("itg_bnc_qty")) > 0
+    }
     print(f"[진단] 현재 보유중 종목명: {sorted(held_names)}")
 
     if trading_output1:
