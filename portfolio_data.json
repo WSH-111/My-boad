@@ -1674,14 +1674,14 @@
     },
     {
       "date": "2026-09-04",
-      "eval": 137582705,
-      "invested": 109374493,
+      "eval": 137596705,
+      "invested": 109388493,
       "pnl": 28208212,
       "pct": 25.79,
-      "trueEval": 228796205,
-      "trueInvested": 139155493,
+      "trueEval": 228810205,
+      "trueInvested": 139169493,
       "truePnl": 89640712,
-      "truePct": 64.42
+      "truePct": 64.41
     }
   ],
   "dates": [
@@ -22722,9 +22722,18 @@
         "pnl": 793665,
         "pct": 15.86
       }
+    ],
+    "CMA 원화RP": [
+      {
+        "date": "2026-09-04",
+        "invested": 0,
+        "eval": 14000,
+        "pnl": 0,
+        "pct": null
+      }
     ]
   },
-  "lastUpdated": "2026-09-04 16:51",
+  "lastUpdated": "2026-09-04 17:27",
   "realizedFrom": "2026-01-02",
   "realizedSchemaVersion": 2,
   "realizedStocks": {
@@ -22805,6 +22814,7 @@
   },
   "realizedIncludeResetDone": true,
   "prevHeldNames": [
+    "CMA 원화RP",
     "DL",
     "KODEX 미국나스닥AI테크액티브",
     "KODEX 코스닥150",
