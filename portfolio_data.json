@@ -1718,14 +1718,14 @@
     },
     {
       "date": "2026-09-10",
-      "eval": 144696060,
+      "eval": 144791260,
       "invested": 109374493,
-      "pnl": 35321567,
-      "pct": 32.29,
-      "trueEval": 240729060,
+      "pnl": 35416767,
+      "pct": 32.38,
+      "trueEval": 240824260,
       "trueInvested": 139155493,
-      "truePnl": 101573567,
-      "truePct": 72.99
+      "truePnl": 101668767,
+      "truePct": 73.06
     }
   ],
   "dates": [
@@ -13355,9 +13355,9 @@
       {
         "date": "2026-09-10",
         "invested": 5660300,
-        "eval": 3228400,
-        "pnl": -2431900,
-        "pct": -42.96
+        "eval": 3323600,
+        "pnl": -2336700,
+        "pct": -41.28
       }
     ],
     "카카오": [
@@ -23325,7 +23325,7 @@
       }
     ]
   },
-  "lastUpdated": "2026-09-10 15:31",
+  "lastUpdated": "2026-09-10 15:55",
   "realizedFrom": "2026-01-02",
   "realizedSchemaVersion": 2,
   "realizedStocks": {
