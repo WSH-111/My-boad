@@ -6,9 +6,9 @@ name: portfolio-update
 on:
   schedule:
     # 한국시간 평일 09:15 ~ 19:45
-    - cron: "15,45 0-10 * * SUN-FRI"
+    - cron: "15,45 0-10 * * MON-FRI"
     # 한국시간 20:15
-    - cron: "15 11 * * SUN-FRI"
+    - cron: "15 11 * * MON-FRI"
   workflow_dispatch:  # 수동 실행 버튼 유지
 
 permissions:
